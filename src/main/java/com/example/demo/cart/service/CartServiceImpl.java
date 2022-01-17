@@ -3,20 +3,25 @@ package com.example.demo.cart.service;
 import com.example.demo.cart.model.Cart;
 import com.example.demo.cart.model.CartId;
 import com.example.demo.cart.repository.CartRepository;
+import com.example.demo.crud.model.Plushy;
+import com.example.demo.crud.repository.PlushyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService{
 
     private final CartRepository cartRepository;
+    private final PlushyRepository plushyRepository;
 
     @Autowired
-    public CartServiceImpl(CartRepository cartRepository) {
+    public CartServiceImpl(CartRepository cartRepository, PlushyRepository plushyRepository) {
         this.cartRepository = cartRepository;
+        this.plushyRepository = plushyRepository;
     }
 
     @Override
@@ -45,5 +50,10 @@ public class CartServiceImpl implements CartService{
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
         cartOptional.ifPresent(cartRepository::delete);
         return getNumInCart(cartId.getUserId());
+    }
+
+    @Override
+    public List<Plushy> getPlushiesInCart(Long userId) {
+        return plushyRepository.getPlushyInfoFromCart();
     }
 }

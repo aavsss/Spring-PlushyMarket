@@ -1,9 +1,9 @@
 package com.example.demo.cart.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import com.example.demo.crud.model.Plushy;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table
@@ -14,6 +14,8 @@ public class Cart {
     @Id
     private Long productId;
     private Integer quantity;
+    @ManyToMany(mappedBy = "plushiesInCart")
+    Set<Plushy> plushies;
 
     public Cart() {}
 
@@ -45,6 +47,14 @@ public class Cart {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Set<Plushy> getPlushies() {
+        return plushies;
+    }
+
+    public void setPlushies(Set<Plushy> plushies) {
+        this.plushies = plushies;
     }
 
     @Override

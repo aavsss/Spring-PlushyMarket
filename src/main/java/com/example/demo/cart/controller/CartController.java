@@ -3,8 +3,11 @@ package com.example.demo.cart.controller;
 import com.example.demo.cart.model.Cart;
 import com.example.demo.cart.model.CartId;
 import com.example.demo.cart.service.CartService;
+import com.example.demo.crud.model.Plushy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/plushy/cart")
@@ -37,6 +40,11 @@ public class CartController {
             @RequestBody CartId cartId
     ) {
         return cartService.deleteItemFromCart(cartId);
+    }
+
+    @GetMapping(path = "/items")
+    public List<Plushy> getPlushiesInCart() {
+        return cartService.getPlushiesInCart(1L);
     }
 
 }

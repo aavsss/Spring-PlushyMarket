@@ -9,4 +9,5 @@ public interface PlushyService {
     Plushy getPlushyById(Long id);
     void addPlushy(Plushy plushy);
     void deletePlushy(Long plushyId);
+
 }
