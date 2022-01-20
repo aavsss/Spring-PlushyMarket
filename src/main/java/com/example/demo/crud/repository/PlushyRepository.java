@@ -10,7 +10,4 @@ import java.util.List;
 @Repository
 public interface PlushyRepository
         extends JpaRepository<Plushy, Long> {
-
-    @Query("SELECT p FROM Plushy p JOIN p.plushiesInCart")
-    List<Plushy> getPlushyInfoFromCart();
 }

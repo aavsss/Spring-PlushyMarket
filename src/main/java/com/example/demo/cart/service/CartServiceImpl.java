@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +55,17 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public List<Plushy> getPlushiesInCart(Long userId) {
-        return plushyRepository.getPlushyInfoFromCart();
+        // Bad. Use spring jpa to do this. Have to manually create a join table. Follow Baeldung. https://www.baeldung.com/jpa-many-to-many
+        List<Plushy> allPlushies = plushyRepository.findAll();
+        List<Cart> cartItems = cartRepository.findAll();
+        List<Plushy> ans = new ArrayList<>();
+        for (Plushy allPlushy : allPlushies) {
+            for (Cart cartItem : cartItems) {
+                if (allPlushy.getId().equals(cartItem.getProductId())) {
+                    ans.add(allPlushy);
+                }
+            }
+        }
+        return ans;
     }
 }

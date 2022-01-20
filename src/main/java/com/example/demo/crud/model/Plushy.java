@@ -3,6 +3,7 @@ package com.example.demo.crud.model;
 import com.example.demo.cart.model.Cart;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -32,7 +33,7 @@ public class Plushy {
             joinColumns = @JoinColumn(name = "plushy_id"),
             inverseJoinColumns = {@JoinColumn(name = "user_id"), @JoinColumn(name = "product_id")}
     )
-    Set<Cart> plushiesInCart;
+    Set<Cart> plushiesInCart = new HashSet<>();
 
     public Plushy() {
     }

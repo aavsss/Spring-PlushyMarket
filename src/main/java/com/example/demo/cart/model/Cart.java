@@ -3,6 +3,7 @@ package com.example.demo.cart.model;
 import com.example.demo.crud.model.Plushy;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,7 @@ public class Cart {
     private Long productId;
     private Integer quantity;
     @ManyToMany(mappedBy = "plushiesInCart")
-    Set<Plushy> plushies;
+    Set<Plushy> plushies = new HashSet<>();
 
     public Cart() {}
 

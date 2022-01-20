@@ -6,8 +6,11 @@ import com.example.demo.crud.model.Plushy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "api/v1/plushy/buy")
+@CrossOrigin(origins = "http://localhost:3000")
 public class BuyController {
 
     private final BuyService buyService;
@@ -17,14 +20,10 @@ public class BuyController {
         this.buyService = buyService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
-    public Plushy buyPlushyById(
-            @RequestBody BuyRequestBody buyRequestBody
+    public List<Plushy> buyPlushyById(
+            @RequestBody List<BuyRequestBody> buyRequestBodies
     ) {
-        return buyService.buyPlushyById(
-                buyRequestBody.getId(),
-                buyRequestBody.getAmount()
-        );
+        return buyService.buyPlushyById(buyRequestBodies);
     }
 }
