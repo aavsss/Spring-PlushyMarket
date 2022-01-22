@@ -15,8 +15,6 @@ public class Cart {
     @Id
     private Long productId;
     private Integer quantity;
-    @ManyToMany(mappedBy = "plushiesInCart")
-    Set<Plushy> plushies = new HashSet<>();
 
     public Cart() {}
 
@@ -48,14 +46,6 @@ public class Cart {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public Set<Plushy> getPlushies() {
-        return plushies;
-    }
-
-    public void setPlushies(Set<Plushy> plushies) {
-        this.plushies = plushies;
     }
 
     @Override

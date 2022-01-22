@@ -2,6 +2,7 @@ package com.example.demo.buy.service;
 
 import com.example.demo.buy.model.BuyRequestBody;
 import com.example.demo.buy.repository.BuyRepository;
+import com.example.demo.cart.repository.CartRepository;
 import com.example.demo.crud.model.Plushy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,12 @@ import java.util.Optional;
 public class BuyServiceImpl implements BuyService {
 
     private final BuyRepository buyRepository;
+    private final CartRepository cartRepository;
 
     @Autowired
-    public BuyServiceImpl(BuyRepository buyRepository) {
+    public BuyServiceImpl(BuyRepository buyRepository, CartRepository cartRepository) {
         this.buyRepository = buyRepository;
+        this.cartRepository = cartRepository;
     }
 
     @Override
@@ -36,6 +39,7 @@ public class BuyServiceImpl implements BuyService {
                 }
             }
         }
+        cartRepository.deleteAll();
         return plushies;
     }
 }

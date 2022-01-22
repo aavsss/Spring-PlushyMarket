@@ -2,6 +2,7 @@ package com.example.demo.cart.service;
 
 import com.example.demo.cart.model.Cart;
 import com.example.demo.cart.model.CartId;
+import com.example.demo.cart.model.PlushyInCart;
 import com.example.demo.cart.repository.CartRepository;
 import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.repository.PlushyRepository;
@@ -39,6 +40,7 @@ public class CartServiceImpl implements CartService{
         if (cartOptional.isPresent()) {
             Cart alreadyPresentCart = cartOptional.get();
             alreadyPresentCart.setQuantity(cart.getQuantity());
+            cartRepository.save(alreadyPresentCart);
             return cartRepository.count();
         }
         cartRepository.save(cart);
@@ -54,18 +56,7 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public List<Plushy> getPlushiesInCart(Long userId) {
-        // Bad. Use spring jpa to do this. Have to manually create a join table. Follow Baeldung. https://www.baeldung.com/jpa-many-to-many
-        List<Plushy> allPlushies = plushyRepository.findAll();
-        List<Cart> cartItems = cartRepository.findAll();
-        List<Plushy> ans = new ArrayList<>();
-        for (Plushy allPlushy : allPlushies) {
-            for (Cart cartItem : cartItems) {
-                if (allPlushy.getId().equals(cartItem.getProductId())) {
-                    ans.add(allPlushy);
-                }
-            }
-        }
-        return ans;
+    public List<PlushyInCart> getPlushiesInCart(Long userId) {
+        return cartRepository.getPlushyInfoFromCartOf();
     }
 }

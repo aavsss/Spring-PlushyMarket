@@ -27,13 +27,6 @@ public class Plushy {
     private String description;
     @Column(length = 1024)
     private String imageUrl;
-    @ManyToMany
-    @JoinTable(
-            name = "plushies_cart",
-            joinColumns = @JoinColumn(name = "plushy_id"),
-            inverseJoinColumns = {@JoinColumn(name = "user_id"), @JoinColumn(name = "product_id")}
-    )
-    Set<Cart> plushiesInCart = new HashSet<>();
 
     public Plushy() {
     }
@@ -112,14 +105,6 @@ public class Plushy {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public Set<Cart> getLikedPlushies() {
-        return plushiesInCart;
-    }
-
-    public void setLikedPlushies(Set<Cart> plushiesInCart) {
-        this.plushiesInCart = plushiesInCart;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.demo.cart.controller;
 
 import com.example.demo.cart.model.Cart;
 import com.example.demo.cart.model.CartId;
+import com.example.demo.cart.model.PlushyInCart;
 import com.example.demo.cart.service.CartService;
 import com.example.demo.crud.model.Plushy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class CartController {
     }
 
     @GetMapping(path = "/items")
-    public List<Plushy> getPlushiesInCart() {
+    public List<PlushyInCart> getPlushiesInCart() {
         return cartService.getPlushiesInCart(1L);
     }
 

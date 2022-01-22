@@ -21,9 +21,9 @@ public class BuyController {
     }
 
     @PostMapping
-    public List<Plushy> buyPlushyById(
+    public void buyPlushyById(
             @RequestBody List<BuyRequestBody> buyRequestBodies
     ) {
-        return buyService.buyPlushyById(buyRequestBodies);
+        buyService.buyPlushyById(buyRequestBodies);
     }
 }

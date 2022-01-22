@@ -23,7 +23,7 @@ public class PlushyConfig {
         return args -> {
             Plushy naruto = new Plushy(
                     "Naruto",
-                    123,
+                    20,
                     5,
                     "naruto is the next hokage",
                     fileService.findByName("plushy/naruto.png")
@@ -31,7 +31,7 @@ public class PlushyConfig {
 
             Plushy sasuke = new Plushy(
                     "Sasuke",
-                    106,
+                    19,
                     6,
                     "sasuke unlocks mangekyou sharingan",
                     fileService.findByName("plushy/sasuke.jpg")
