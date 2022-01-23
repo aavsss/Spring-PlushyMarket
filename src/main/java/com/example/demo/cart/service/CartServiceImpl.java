@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,9 +36,16 @@ public class CartServiceImpl implements CartService{
         Optional<Cart> cartOptional = cartRepository.findById(
                 new CartId(cart.getUserId(), cart.getProductId())
         );
-        if (cartOptional.isPresent()) {
+        Optional<Plushy> plushyOptional = plushyRepository.findById(cart.getProductId());
+        if (cartOptional.isPresent() && plushyOptional.isPresent()) {
             Cart alreadyPresentCart = cartOptional.get();
-            alreadyPresentCart.setQuantity(cart.getQuantity());
+            Plushy plushyInQuestion = plushyOptional.get();
+            Integer quantityToSet = alreadyPresentCart.getQuantity() + cart.getQuantity();
+            if (quantityToSet > plushyInQuestion.getQuantity()) {
+                alreadyPresentCart.setQuantity(plushyInQuestion.getQuantity());
+            } else {
+                alreadyPresentCart.setQuantity(quantityToSet);
+            }
             cartRepository.save(alreadyPresentCart);
             return cartRepository.count();
         }
