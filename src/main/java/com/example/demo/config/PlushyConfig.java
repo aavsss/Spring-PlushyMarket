@@ -4,7 +4,7 @@ import com.example.demo.cart.model.Cart;
 import com.example.demo.cart.repository.CartRepository;
 import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.repository.PlushyRepository;
-import com.example.demo.globalService.FileServiceImpl;
+import com.example.demo.globalService.FileService.FileServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

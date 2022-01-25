@@ -2,15 +2,15 @@ package com.example.demo.crud.controller;
 
 import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.service.PlushyService;
-import com.example.demo.globalService.FileServiceImpl;
+import com.example.demo.globalService.FileService.FileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/plushy")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PlushyController {
 
     private final PlushyService plushyService;
@@ -25,13 +25,11 @@ public class PlushyController {
         this.fileService = fileService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public List<Plushy> getPlushies() {
         return plushyService.getPlushies();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path = "{plushyId}")
     public Plushy getPlushyById(
             @PathVariable("plushyId") Long id

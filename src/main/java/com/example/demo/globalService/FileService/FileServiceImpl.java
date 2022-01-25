@@ -1,8 +1,7 @@
-package com.example.demo.globalService;
+package com.example.demo.globalService.FileService;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectListing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Service
-public class FileServiceImpl {
+public class FileServiceImpl implements FileService {
 
     public final static String S3_BUCKET_NAME = "plushybucket";
 
@@ -28,6 +27,7 @@ public class FileServiceImpl {
     }
 
     @Async
+    @Override
     public String findByName(String fileName) {
         if (!amazonS3.doesObjectExist(S3_BUCKET_NAME, fileName))
             return "FILE DOES NOT EXIST";
@@ -35,6 +35,7 @@ public class FileServiceImpl {
     }
 
     @Async
+    @Override
     public String save(String fileName) {
         return generateUrl(fileName, HttpMethod.PUT);
     }
