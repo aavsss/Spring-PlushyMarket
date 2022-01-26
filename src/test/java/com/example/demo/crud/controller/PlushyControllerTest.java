@@ -83,6 +83,4 @@ class PlushyControllerTest {
             throw new RuntimeException(e);
         }
     }
-
-
 }
