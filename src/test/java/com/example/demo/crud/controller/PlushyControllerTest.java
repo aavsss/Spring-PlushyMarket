@@ -13,11 +13,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,7 +36,7 @@ class PlushyControllerTest {
     @MockBean
     private PlushyService mockPlushyService;
     @Mock
-    private FileServiceImpl fileService;
+    private FileServiceImpl mockFileService;
 
     @Test
     void getAllPlushies_returns200() throws Exception {
@@ -50,9 +52,36 @@ class PlushyControllerTest {
         Plushy plushy = new Plushy();
         Mockito.when(mockPlushyService.getPlushyById(any())).thenReturn(plushy);
         mockMvc.perform(
-                get("/api/v1/plushy/{plushyId}"))
+                get("/api/v1/plushy/{plushyId}", 1))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    void addPlushy_returns200() throws Exception {
+        Plushy plushy = new Plushy();
+        mockMvc.perform(
+                post("/api/v1/plushy")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(plushy)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void findByName_returns200() throws Exception {
+        String fileName = "fileName";
+        Mockito.when(mockFileService.findByName(any())).thenReturn(fileName);
+        mockMvc.perform(
+                get("/api/v1/plushy/pic"))
+                .andExpect(status().isOk());
+    }
+
+    String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
