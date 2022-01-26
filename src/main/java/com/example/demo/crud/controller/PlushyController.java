@@ -56,6 +56,4 @@ public class PlushyController {
         return fileService.findByName("plushy/naruto.png");
     }
 
-    // TODO put mapping
-
 }
