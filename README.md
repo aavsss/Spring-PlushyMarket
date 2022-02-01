@@ -3,3 +3,5 @@
 2. docker-compose up
 
 To setup docker:   https://www.baeldung.com/spring-boot-postgresql-docker
+
+docker rmi docker-spring-boot-postgres:latest
