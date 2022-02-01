@@ -1,11 +1,10 @@
-package com.example.demo.registration.service;
+package com.example.demo.authorization.registration.service;
 
-import com.example.demo.appuser.models.AppUser;
-import com.example.demo.appuser.models.AppUserRole;
-import com.example.demo.appuser.service.AppUserService;
-import com.example.demo.registration.dependencies.EmailValidator;
-import com.example.demo.registration.models.RegistrationRequest;
-import com.example.demo.registration.token.ConfirmationTokenService;
+import com.example.demo.authorization.appuser.models.AppUser;
+import com.example.demo.authorization.appuser.models.AppUserRole;
+import com.example.demo.authorization.appuser.service.AppUserService;
+import com.example.demo.authorization.registration.dependencies.EmailValidator;
+import com.example.demo.authorization.registration.models.RegistrationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,6 @@ public class RegistrationService {
 
     private final AppUserService appUserService;
     private final EmailValidator emailValidator;
-    private final ConfirmationTokenService confirmationTokenService;
 
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());

@@ -1,4 +1,4 @@
-package com.example.demo.registration.models;
+package com.example.demo.authorization.registration.models;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

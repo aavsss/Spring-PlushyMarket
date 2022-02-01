@@ -1,6 +1,6 @@
-package com.example.demo.appuser.repository;
+package com.example.demo.authorization.appuser.repository;
 
-import com.example.demo.appuser.models.AppUser;
+import com.example.demo.authorization.appuser.models.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

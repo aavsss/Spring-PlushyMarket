@@ -1,4 +1,4 @@
-package com.example.demo.appuser.models;
+package com.example.demo.authorization.appuser.models;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

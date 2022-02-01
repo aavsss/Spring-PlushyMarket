@@ -1,19 +1,14 @@
-package com.example.demo.appuser.service;
+package com.example.demo.authorization.appuser.service;
 
-import com.example.demo.appuser.models.AppUser;
-import com.example.demo.appuser.repository.AppUserRepository;
-import com.example.demo.registration.token.ConfirmationToken;
-import com.example.demo.registration.token.ConfirmationTokenService;
-import com.example.demo.security.dependency.JWTUtils;
+import com.example.demo.authorization.appuser.models.AppUser;
+import com.example.demo.authorization.appuser.repository.AppUserRepository;
+import com.example.demo.authorization.security.dependency.JWTUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +18,6 @@ public class AppUserService implements UserDetailsService {
             "user with email %s not found";
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ConfirmationTokenService confirmationTokenService;
     private final JWTUtils jwtUtils;
 
     @Override
@@ -44,14 +38,6 @@ public class AppUserService implements UserDetailsService {
         appUserRepository.save(appUser);
 
         String token = jwtUtils.getJWTToken(appUser.getEmail());
-//        ConfirmationToken confirmationToken = new ConfirmationToken(
-//              token,
-//              LocalDateTime.now(),
-//              LocalDateTime.now().plusMinutes(15),
-//              appUser
-//        );
-//
-//        confirmationTokenService.saveConfirmationToken(confirmationToken);
         return token;
     }
 
