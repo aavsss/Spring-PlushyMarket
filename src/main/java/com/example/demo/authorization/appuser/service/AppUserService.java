@@ -1,5 +1,6 @@
 package com.example.demo.authorization.appuser.service;
 
+import com.amazonaws.services.fms.model.App;
 import com.example.demo.authorization.appuser.models.AppUser;
 import com.example.demo.authorization.appuser.repository.AppUserRepository;
 import com.example.demo.authorization.security.dependency.JWTUtils;
@@ -10,11 +11,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class AppUserService implements UserDetailsService {
 
-    private final static String USER_NOT_FOUND_MSG =
+    private final String USER_NOT_FOUND_MSG =
             "user with email %s not found";
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -39,6 +42,20 @@ public class AppUserService implements UserDetailsService {
 
         String token = jwtUtils.getJWTToken(appUser.getEmail());
         return token;
+    }
+
+    public String loginUser(String email, String password) {
+        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        boolean userExists = optionalAppUser.isPresent();
+        if (userExists) {
+            boolean isPasswordSame = bCryptPasswordEncoder.matches(password, optionalAppUser.get().getPassword());
+            if (!isPasswordSame) {
+                throw new IllegalStateException("Incorrect password");
+            }
+            String token = jwtUtils.getJWTToken(email);
+            return token;
+        }
+        throw new IllegalStateException("User not found");
     }
 
     public int enableAppUser(String email) {
