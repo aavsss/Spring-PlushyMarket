@@ -1,14 +1,14 @@
-package com.example.demo.authorization.login;
+package com.example.demo.authorization.login.service;
 
-import com.example.demo.authorization.appuser.service.AppUserService;
+import com.example.demo.authorization.appuser.service.AppUserServiceImpl;
 import com.example.demo.authorization.registration.dependencies.EmailValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class LoginService {
-    private final AppUserService appUserService;
+public class LoginServiceImpl implements LoginService {
+    private final AppUserServiceImpl appUserService;
     private final EmailValidator emailValidator;
 
     public String login(String email, String password) {

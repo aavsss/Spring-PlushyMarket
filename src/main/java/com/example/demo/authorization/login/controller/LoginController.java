@@ -1,5 +1,7 @@
-package com.example.demo.authorization.login;
+package com.example.demo.authorization.login.controller;
 
+import com.example.demo.authorization.login.model.LoginRequestBody;
+import com.example.demo.authorization.login.service.LoginService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
