@@ -1,6 +1,7 @@
 package com.example.demo.authorization.security.config;
 
 import com.example.demo.authorization.appuser.service.AppUserServiceImpl;
+import com.example.demo.authorization.security.filter.CheckAuthCookieFilter;
 import com.example.demo.authorization.security.filter.JWTAuthorizationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @AllArgsConstructor
@@ -21,11 +23,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppUserServiceImpl appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
+    private final CheckAuthCookieFilter checkAuthCookieFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .addFilterBefore(checkAuthCookieFilter, BasicAuthenticationFilter.class)
                 .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers("/api/v*/registration/**", "/api/v*/login/**")
