@@ -76,7 +76,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) throws UnsupportedEncodingException {
-//        Optional<String> cookie = readCookie(request, "token");
         String token = "try";
         if (request.getCookies() != null) {
             token = getAuthTokenFromCookie(request.getCookies());
