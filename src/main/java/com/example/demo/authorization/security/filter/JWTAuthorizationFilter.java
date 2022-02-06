@@ -50,6 +50,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
+            System.out.println("/// e error " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             return;
@@ -81,9 +82,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             token = getAuthTokenFromCookie(request.getCookies());
         }
 
-        String authenticationHeader = token;
-        if (token.equalsIgnoreCase("try")) {
-            authenticationHeader = request.getHeader(HEADER);
+        String authenticationHeader = request.getHeader(HEADER);
+        if (!token.equalsIgnoreCase("try")) {
+            authenticationHeader = token;
         }
         if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX)) {
             return false;
