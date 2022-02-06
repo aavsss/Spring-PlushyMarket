@@ -46,7 +46,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.clearContext();
                 }
             } else {
-              SecurityContextHolder.clearContext();
+                SecurityContextHolder.clearContext();
             }
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
@@ -56,9 +56,13 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         }
     }
 
-    private Claims validateToken(HttpServletRequest request) {
+    private Claims validateToken(HttpServletRequest request) throws UnsupportedEncodingException {
+        String token = request.getHeader(HEADER);
         String secret = env.getProperty("jet_secret_key");
-        String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
+        if (request.getCookies() != null) {
+            token = getAuthTokenFromCookie(request.getCookies());
+        }
+        String jwtToken = token.replace(PREFIX, "");
         return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 
@@ -72,12 +76,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) throws UnsupportedEncodingException {
-        Optional<String> cookie = readCookie(request, "token");
+//        Optional<String> cookie = readCookie(request, "token");
         String token = "try";
-        if (cookie.isPresent()) {
-            token = URLDecoder.decode(cookie.get(), "UTF-8");
+        if (request.getCookies() != null) {
+            token = getAuthTokenFromCookie(request.getCookies());
         }
-        String authenticationHeader = request.getHeader(HEADER);
+
+        String authenticationHeader = token;
+        if (token.equalsIgnoreCase("try")) {
+            authenticationHeader = request.getHeader(HEADER);
+        }
         if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX)) {
             return false;
         }
@@ -89,5 +97,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 .filter(cookie -> name.equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .findAny();
+    }
+
+    private String getAuthTokenFromCookie(Cookie[] cookies) throws UnsupportedEncodingException {
+        if (cookies != null) {
+            for (Cookie cookie: cookies) {
+                if (cookie.getName().equalsIgnoreCase("token")) {
+                    return URLDecoder.decode(cookie.getValue(), "UTF-8");
+                }
+            }
+        }
+        return "try";
     }
 }
