@@ -1,7 +1,6 @@
 package com.example.demo.authorization.security.config;
 
 import com.example.demo.authorization.appuser.service.AppUserServiceImpl;
-import com.example.demo.authorization.security.filter.CheckAuthCookieFilter;
 import com.example.demo.authorization.security.filter.JWTAuthorizationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,10 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @AllArgsConstructor
@@ -26,7 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppUserServiceImpl appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
-    private final CheckAuthCookieFilter checkAuthCookieFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

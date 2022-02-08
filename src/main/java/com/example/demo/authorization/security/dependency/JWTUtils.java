@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.demo.helper.Constants.JWT_SECRET_KEY;
+
 @Service
 @AllArgsConstructor
 public class JWTUtils {
@@ -22,11 +24,9 @@ public class JWTUtils {
     private Environment env;
 
     public String getJWTToken(String email) {
-        String secretKey = env.getProperty("jet_secret_key");
+        String secretKey = env.getProperty(JWT_SECRET_KEY);
         List<GrantedAuthority> grantedAuthorityList = AuthorityUtils
                 .commaSeparatedStringToAuthorityList(AppUserRole.USER.toString());
-
-//        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
 
         String token = Jwts
                 .builder()

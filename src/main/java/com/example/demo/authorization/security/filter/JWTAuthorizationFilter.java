@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.example.demo.helper.Constants.ENCODING_STD;
+import static com.example.demo.helper.Constants.JWT_SECRET_KEY;
+
 @Service
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
@@ -36,7 +39,11 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     private final String PREFIX = "Bearer ";
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
         try {
             if (checkJWTToken(request, response)) {
                 Claims claims = validateToken(request);
@@ -59,7 +66,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private Claims validateToken(HttpServletRequest request) throws UnsupportedEncodingException {
         String token = request.getHeader(HEADER);
-        String secret = env.getProperty("jet_secret_key");
+        String secret = env.getProperty(JWT_SECRET_KEY);
         if (request.getCookies() != null) {
             token = getAuthTokenFromCookie(request.getCookies());
         }
@@ -103,7 +110,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         if (cookies != null) {
             for (Cookie cookie: cookies) {
                 if (cookie.getName().equalsIgnoreCase("token")) {
-                    return URLDecoder.decode(cookie.getValue(), "UTF-8");
+                    return URLDecoder.decode(cookie.getValue(), ENCODING_STD);
                 }
             }
         }

@@ -2,6 +2,8 @@ package com.example.demo.authorization.login.controller;
 
 import com.example.demo.authorization.login.model.LoginRequestBody;
 import com.example.demo.authorization.login.service.LoginService;
+import com.example.demo.authorization.registration.models.RegistrationRequest;
+import com.example.demo.authorization.registration.service.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import java.net.URLEncoder;
 public class LoginController {
 
     private final LoginService loginService;
+    private final RegistrationService registrationService;
 
     @PostMapping
     public String login(
@@ -38,6 +41,12 @@ public class LoginController {
         response.addCookie(cookie);
 
         return token;
+    }
+
+    @PostMapping("/register")
+    public String register(
+            @RequestBody RegistrationRequest request) {
+        return registrationService.register(request);
     }
 
     @GetMapping
