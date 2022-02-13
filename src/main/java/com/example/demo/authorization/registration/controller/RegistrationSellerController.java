@@ -13,30 +13,15 @@ import java.net.URLEncoder;
 import static com.example.demo.helper.Constants.ENCODING_STD;
 
 @RestController
-@RequestMapping(path = "api/v1/registration")
+@RequestMapping(path = "api/v1/registrationSeller")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 @AllArgsConstructor
-public class RegistrationController {
+public class RegistrationSellerController {
 
     private RegistrationService registrationService;
 
-//    @PostMapping(path = "/seller")
-//    public String registerAsSeller(
-//            @RequestBody RegistrationRequest request,
-//            HttpServletResponse response) throws UnsupportedEncodingException {
-//        String token = registrationService.register(request);
-//
-//        Cookie cookie = new Cookie("token", URLEncoder.encode(token, ENCODING_STD));
-//        cookie.setSecure(false);
-//        cookie.setHttpOnly(false);
-//        cookie.setMaxAge(7 * 24 * 60 * 60);
-//        response.addCookie(cookie);
-//
-//        return token;
-//    }
-
     @PostMapping
-    public String register(
+    public String registerAsSeller(
             @RequestBody RegistrationRequest request,
             HttpServletResponse response) throws UnsupportedEncodingException {
         String token = registrationService.register(request);
@@ -49,7 +34,4 @@ public class RegistrationController {
 
         return token;
     }
-
-
-
 }

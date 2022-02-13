@@ -31,4 +31,21 @@ public class RegistrationServiceImpl implements RegistrationService{
                 )
         );
     }
+
+    @Override
+    public String registerAsSeller(RegistrationRequest request) {
+        boolean isValidEmail = emailValidator.test(request.getEmail());
+        if (!isValidEmail) {
+            throw new IllegalStateException("email not valid");
+        }
+        return appUserService.signUpUser(
+                new AppUser(
+                        request.getFirstName(),
+                        request.getFirstName(),
+                        request.getEmail(),
+                        request.getPassword(),
+                        AppUserRole.SELLER
+                )
+        );
+    }
 }

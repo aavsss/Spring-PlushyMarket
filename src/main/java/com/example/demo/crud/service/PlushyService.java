@@ -4,7 +4,7 @@ import com.example.demo.crud.model.Plushy;
 
 import java.util.List;
 
-public interface PlushyService {
+public interface  PlushyService {
     List<Plushy> getPlushies();
     Plushy getPlushyById(Long id);
     void addPlushy(Plushy plushy);

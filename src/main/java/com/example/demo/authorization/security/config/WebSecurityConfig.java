@@ -28,7 +28,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                    .antMatchers("/api/v*/registration/**", "/api/v*/login/**")
+                    .antMatchers(
+                            "/api/v*/registration/**",
+                            "/api/v*/registrationSeller/**",
+                            "/api/v*/login/**")
                     .permitAll()
                 .anyRequest()
                 .authenticated().and()

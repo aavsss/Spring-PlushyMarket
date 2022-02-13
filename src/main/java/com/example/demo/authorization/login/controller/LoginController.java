@@ -5,10 +5,6 @@ import com.example.demo.authorization.login.service.LoginService;
 import com.example.demo.authorization.registration.models.RegistrationRequest;
 import com.example.demo.authorization.registration.service.RegistrationService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -16,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
+import static com.example.demo.helper.Constants.ENCODING_STD;
 
 
 @RestController
@@ -43,27 +41,4 @@ public class LoginController {
         return token;
     }
 
-    @PostMapping("/register")
-    public String register(
-            @RequestBody RegistrationRequest request) {
-        return registrationService.register(request);
-    }
-
-    @GetMapping
-    public String readCookie(
-            @CookieValue(name = "token", defaultValue = "default value") String token
-    ) {
-        System.out.println("token " + token);
-        return token;
-    }
-
-    @GetMapping("/create")
-    public String createCookie(HttpServletRequest request, HttpServletResponse response) {
-        Cookie cookie = new Cookie("foo", "bar");
-        cookie.setSecure(false);
-        cookie.setHttpOnly(false);
-        cookie.setMaxAge(7 * 24 * 60 * 60);
-        response.addCookie(cookie);
-        return "cookie is added!";
-    }
 }
