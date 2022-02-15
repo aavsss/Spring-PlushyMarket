@@ -11,6 +11,7 @@ import com.example.demo.globalService.FileService.FileServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
@@ -22,7 +23,8 @@ public class PlushyConfig {
             PlushyRepository plushyRepository,
             CartRepository cartRepository,
             FileServiceImpl fileService,
-            AppUserRepository appUserRepository
+            AppUserRepository appUserRepository,
+            BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
         return args -> {
             Plushy naruto = new Plushy(
@@ -50,15 +52,14 @@ public class PlushyConfig {
             cartRepository.save(narutoInCart);
 
             // user
-//            AppUser appUser = new AppUser(
-//                    "Aavash",
-//                    "Sthapit",
-//                    "aavashsthapit@gmail.com",
-//                    "password",
-//                    AppUserRole.ADMIN
-//            );
-//            appUserRepository.save(appUser);
-
+            AppUser appUser = new AppUser(
+                    "Aavash",
+                    "Sthapit",
+                    "aavashsthapit@gmail.com",
+                    bCryptPasswordEncoder.encode("password"),
+                    AppUserRole.ADMIN
+            );
+            appUserRepository.save(appUser);
         };
     }
 }

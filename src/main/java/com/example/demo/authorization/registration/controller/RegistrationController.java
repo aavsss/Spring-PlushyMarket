@@ -20,20 +20,20 @@ public class RegistrationController {
 
     private RegistrationService registrationService;
 
-//    @PostMapping(path = "/seller")
-//    public String registerAsSeller(
-//            @RequestBody RegistrationRequest request,
-//            HttpServletResponse response) throws UnsupportedEncodingException {
-//        String token = registrationService.register(request);
-//
-//        Cookie cookie = new Cookie("token", URLEncoder.encode(token, ENCODING_STD));
-//        cookie.setSecure(false);
-//        cookie.setHttpOnly(false);
-//        cookie.setMaxAge(7 * 24 * 60 * 60);
-//        response.addCookie(cookie);
-//
-//        return token;
-//    }
+    @PostMapping(path = "/seller")
+    public String registerAsSeller(
+            @RequestBody RegistrationRequest request,
+            HttpServletResponse response) throws UnsupportedEncodingException {
+        String token = registrationService.registerAsSeller(request);
+
+        Cookie cookie = new Cookie("token", URLEncoder.encode(token, ENCODING_STD));
+        cookie.setSecure(false);
+        cookie.setHttpOnly(false);
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        response.addCookie(cookie);
+
+        return token;
+    }
 
     @PostMapping
     public String register(
