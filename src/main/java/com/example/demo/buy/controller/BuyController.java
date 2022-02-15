@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/plushy/buy")
-@CrossOrigin(origins = "http://localhost:3000")
 public class BuyController {
 
     private final BuyService buyService;
