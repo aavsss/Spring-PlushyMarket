@@ -1,6 +1,7 @@
 package com.example.demo.crud.service;
 
 import com.example.demo.crud.model.Plushy;
+import com.example.demo.crud.model.UploadRequestBody;
 import com.example.demo.crud.repository.PlushyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -50,5 +51,18 @@ public class PlushyServiceImpl implements PlushyService{
             );
         }
         plushyRepository.deleteById(plushyId);
+    }
+
+    @Override
+    public void uploadPlushy(UploadRequestBody uploadRequestBody) {
+        plushyRepository.save(
+                new Plushy(
+                        uploadRequestBody.getName(),
+                        Math.toIntExact(uploadRequestBody.getPrice()),
+                        uploadRequestBody.getQuantity(),
+                        uploadRequestBody.getDescription(),
+                        ""
+                )
+        );
     }
 }

@@ -1,11 +1,13 @@
 package com.example.demo.crud.controller;
 
 import com.example.demo.crud.model.Plushy;
+import com.example.demo.crud.model.UploadRequestBody;
 import com.example.demo.crud.service.PlushyService;
 import com.example.demo.globalService.FileService.FileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -29,7 +31,6 @@ public class PlushyController {
     public List<Plushy> getPlushies(
             @CookieValue(name = "token", defaultValue = "token") String jwtToken
     ) {
-        System.out.println("jwt? " + jwtToken);
         return plushyService.getPlushies();
     }
 
@@ -42,9 +43,11 @@ public class PlushyController {
 
     @PostMapping
     public void addPlushy(
-            @RequestBody Plushy plushy
+            @RequestBody UploadRequestBody uploadRequestBody,
+            HttpServletResponse response
     ) {
-        plushyService.addPlushy(plushy);
+        System.out.println("/// ur " + uploadRequestBody.toString());
+        plushyService.uploadPlushy(uploadRequestBody);
     }
 
     @DeleteMapping(path = "{plushyId}")
@@ -57,6 +60,15 @@ public class PlushyController {
     @GetMapping(path = "/pic")
     public String findByName() {
         return fileService.findByName("plushy/naruto.png");
+    }
+
+    @PostMapping("/upload")
+    public void uploadPlushy(
+            @RequestBody UploadRequestBody uploadRequestBody,
+            HttpServletResponse response
+    ) {
+        System.out.println("/// ur " + uploadRequestBody.toString());
+        plushyService.uploadPlushy(uploadRequestBody);
     }
 
 }
