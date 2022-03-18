@@ -29,7 +29,6 @@ import static com.example.demo.helper.Constants.JWT_SECRET_KEY;
 
 @Service
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -57,7 +56,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
-            System.out.println("/// e error " + e.getMessage());
+            System.out.println("/// e error " + Arrays.toString(e.getStackTrace()));
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             return;

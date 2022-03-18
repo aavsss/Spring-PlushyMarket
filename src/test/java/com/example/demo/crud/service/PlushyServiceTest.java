@@ -2,6 +2,7 @@ package com.example.demo.crud.service;
 
 import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.repository.PlushyRepository;
+import com.example.demo.globalService.FileService.FileService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +23,11 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class PlushyServiceTest {
 
+    private PlushyServiceImpl plushyService;
     @Mock
     private PlushyRepository mockPlushyRepository;
-    private PlushyServiceImpl plushyService;
+    @Mock
+    private FileService mockFileService;
     @Captor
     ArgumentCaptor<Sort> argumentCaptor;
     @Captor
@@ -34,7 +37,7 @@ public class PlushyServiceTest {
 
     @Before
     public void init() {
-        plushyService = new PlushyServiceImpl(mockPlushyRepository);
+        plushyService = new PlushyServiceImpl(mockPlushyRepository, mockFileService);
     }
 
     @Test
