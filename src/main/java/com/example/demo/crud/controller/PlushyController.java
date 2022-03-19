@@ -65,16 +65,16 @@ public class PlushyController {
 
     @PostMapping(
             path = "/upload",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public void uploadPlushy(
-            @RequestBody UploadRequestBody uploadRequestBody,
-            @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+            @RequestPart("plushy") String plushy,
+            @RequestPart(value = "file", required = false) MultipartFile multipartFile,
             HttpServletResponse response
     ) {
-        System.out.println("/// ur " + uploadRequestBody.toString());
-        plushyService.uploadPlushy(uploadRequestBody, multipartFile);
+        System.out.println("/// ur " + plushy + " " + multipartFile.toString());
+        plushyService.uploadPlushy(plushy, multipartFile);
     }
 
     @PostMapping(

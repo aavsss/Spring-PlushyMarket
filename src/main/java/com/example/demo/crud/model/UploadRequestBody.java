@@ -7,7 +7,7 @@ import lombok.ToString;
 @ToString
 public class UploadRequestBody {
     private String name;
-    private Long price;
+    private Integer price;
     private Integer quantity;
     private String description;
     private String imageUrl;

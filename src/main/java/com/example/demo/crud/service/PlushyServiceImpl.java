@@ -4,6 +4,7 @@ import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.model.UploadRequestBody;
 import com.example.demo.crud.repository.PlushyRepository;
 import com.example.demo.globalService.FileService.FileService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -57,20 +58,33 @@ public class PlushyServiceImpl implements PlushyService{
     }
 
     @Override
-    public void uploadPlushy(UploadRequestBody uploadRequestBody, MultipartFile multipartFile) {
+    public void uploadPlushy(String plushy, MultipartFile multipartFile) {
+        UploadRequestBody plushyJson = getJsonfrom(plushy);
         String imageUrl = "";
         if (multipartFile != null && !multipartFile.isEmpty()) {
             imageUrl = uploadPlushyImage(multipartFile);
         }
         plushyRepository.save(
                 new Plushy(
-                        uploadRequestBody.getName(),
-                        Math.toIntExact(uploadRequestBody.getPrice()),
-                        uploadRequestBody.getQuantity(),
-                        uploadRequestBody.getDescription(),
+                        plushyJson.getName(),
+                        Math.toIntExact(plushyJson.getPrice()),
+                        plushyJson.getQuantity(),
+                        plushyJson.getDescription(),
                         imageUrl
                 )
         );
+    }
+
+    private UploadRequestBody getJsonfrom(String plushyStr) {
+        UploadRequestBody plushy = new UploadRequestBody();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            plushy = objectMapper.readValue(plushyStr, UploadRequestBody.class);
+        } catch (IOException err) {
+            System.out.println("Error "+ err.toString());
+        }
+        System.out.println("/// json " + plushy);
+        return plushy;
     }
 
     @Override

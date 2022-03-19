@@ -11,7 +11,7 @@ public interface  PlushyService {
     Plushy getPlushyById(Long id);
     void addPlushy(Plushy plushy);
     void deletePlushy(Long plushyId);
-    void uploadPlushy(UploadRequestBody uploadRequestBody, MultipartFile multipartFile);
+    void uploadPlushy(String plushy, MultipartFile multipartFile);
     String uploadPlushyImage(MultipartFile file);
 
 }
