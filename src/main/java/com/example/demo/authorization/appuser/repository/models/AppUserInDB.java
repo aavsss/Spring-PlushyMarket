@@ -1,5 +1,6 @@
-package com.example.demo.authorization.appuser.models;
+package com.example.demo.authorization.appuser.repository.models;
 
+import com.example.demo.authorization.appuser.models.AppUserRole;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Collections;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-public class AppUser implements UserDetails {
+public class AppUserInDB implements UserDetails {
 
     @SequenceGenerator(
             name = "user_sequence",
@@ -39,7 +40,7 @@ public class AppUser implements UserDetails {
     private Boolean locked = false;
     private Boolean enabled = true;
 
-    public AppUser(
+    public AppUserInDB(
             String firstName,
             String lastName,
             String email,

@@ -3,14 +3,13 @@ package com.example.demo.buy.service;
 import com.example.demo.buy.model.BuyRequestBody;
 import com.example.demo.buy.repository.BuyRepository;
 import com.example.demo.cart.repository.CartRepository;
-import com.example.demo.crud.model.Plushy;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BuyServiceImpl implements BuyService {
@@ -26,16 +25,16 @@ public class BuyServiceImpl implements BuyService {
 
     @Override
     @Transactional
-    public List<Plushy> buyPlushyById(List<BuyRequestBody> plushiesToBuy) {
+    public List<PlushyInDB> buyPlushyById(List<BuyRequestBody> plushiesToBuy) {
         List<Long> ids = new ArrayList<>();
         for ( BuyRequestBody requestBody: plushiesToBuy) {
             ids.add(requestBody.getId());
         }
-        List<Plushy> plushies = buyRepository.findAllById(ids);
-        for(Plushy plushy : plushies) {
+        List<PlushyInDB> plushies = buyRepository.findAllById(ids);
+        for(PlushyInDB plushyInDB : plushies) {
             for (BuyRequestBody buyRequestBody : plushiesToBuy) {
-                if (plushy.getId().equals(buyRequestBody.getId())) {
-                    plushy.setQuantity(plushy.getQuantity() - buyRequestBody.getAmount());
+                if (plushyInDB.getId().equals(buyRequestBody.getId())) {
+                    plushyInDB.setQuantity(plushyInDB.getQuantity() - buyRequestBody.getAmount());
                 }
             }
         }

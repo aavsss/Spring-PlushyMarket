@@ -1,24 +1,20 @@
-package com.example.demo.cart.model;
-
-import com.example.demo.crud.model.Plushy;
+package com.example.demo.cart.repository.models;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table
 @IdClass(CartId.class)
-public class Cart {
+public class CartInDB {
     @Id
     private Long userId;
     @Id
     private Long productId;
     private Integer quantity;
 
-    public Cart() {}
+    public CartInDB() {}
 
-    public Cart(Long userId, Long productId, Integer quantity) {
+    public CartInDB(Long userId, Long productId, Integer quantity) {
         this.userId = userId;
         this.productId = productId;
         this.quantity = quantity;

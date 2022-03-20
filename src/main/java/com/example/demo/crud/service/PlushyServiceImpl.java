@@ -1,16 +1,16 @@
 package com.example.demo.crud.service;
 
+import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.crud.model.Plushy;
-import com.example.demo.crud.model.UploadRequestBody;
 import com.example.demo.crud.repository.PlushyRepository;
 import com.example.demo.globalService.FileService.FileService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
 
@@ -25,25 +25,25 @@ public class PlushyServiceImpl implements PlushyService{
     private final FileService fileService;
 
     @Override
-    public List<Plushy> getPlushies() {
+    public List<PlushyInDB> getPlushies() {
         return plushyRepository.findAll(
                 Sort.by(Sort.Direction.ASC, "id")
         );
     }
 
     @Override
-    public Plushy getPlushyById(Long id) {
-        Optional<Plushy> plushyOptional = plushyRepository.findById(id);
+    public PlushyInDB getPlushyById(Long id) {
+        Optional<PlushyInDB> plushyOptional = plushyRepository.findById(id);
         return plushyOptional.orElse(null);
     }
 
     @Override
-    public void addPlushy(Plushy plushy) {
-        Optional<Plushy> plushyOptional = plushyRepository.findById(plushy.getId());
+    public void addPlushy(PlushyInDB plushyInDB) {
+        Optional<PlushyInDB> plushyOptional = plushyRepository.findById(plushyInDB.getId());
         if (plushyOptional.isPresent()) {
             throw new IllegalStateException("plushy already taken");
         }
-        plushyRepository.save(plushy);
+        plushyRepository.save(plushyInDB);
     }
 
     @Override
@@ -58,14 +58,12 @@ public class PlushyServiceImpl implements PlushyService{
     }
 
     @Override
+    @Transactional
     public void uploadPlushy(String plushy, MultipartFile multipartFile) {
-        UploadRequestBody plushyJson = getJsonfrom(plushy);
+        Plushy plushyJson = getJsonFrom(plushy);
         String imageUrl = "";
-        if (multipartFile != null && !multipartFile.isEmpty()) {
-            imageUrl = uploadPlushyImage(multipartFile);
-        }
-        plushyRepository.save(
-                new Plushy(
+        PlushyInDB plushyInDB = plushyRepository.save(
+                new PlushyInDB(
                         plushyJson.getName(),
                         Math.toIntExact(plushyJson.getPrice()),
                         plushyJson.getQuantity(),
@@ -73,13 +71,17 @@ public class PlushyServiceImpl implements PlushyService{
                         imageUrl
                 )
         );
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            imageUrl = uploadPlushyImage(plushyInDB.getId(), plushyInDB.getName(), multipartFile);
+            plushyInDB.setImageUrl(imageUrl);
+        }
     }
 
-    private UploadRequestBody getJsonfrom(String plushyStr) {
-        UploadRequestBody plushy = new UploadRequestBody();
+    private Plushy getJsonFrom(String plushyStr) {
+        Plushy plushy = new Plushy();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            plushy = objectMapper.readValue(plushyStr, UploadRequestBody.class);
+            plushy = objectMapper.readValue(plushyStr, Plushy.class);
         } catch (IOException err) {
             System.out.println("Error "+ err.toString());
         }
@@ -87,9 +89,7 @@ public class PlushyServiceImpl implements PlushyService{
         return plushy;
     }
 
-    @Override
-    public String uploadPlushyImage(MultipartFile file) {
-        System.out.println("/// file " + file);
+    public String uploadPlushyImage(Long plushyId, String fileName, MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new IllegalStateException("Cannot upload empty file");
         }
@@ -104,13 +104,40 @@ public class PlushyServiceImpl implements PlushyService{
         metadata.put("Content-Type", file.getContentType());
         metadata.put("Content-Length", String.valueOf(file.getSize()));
         // save image in s3 and then save image in the database
-        String path = String.format("%s/%s", S3_BUCKET_NAME, "plushy");
-        String fileName = String.format("%s", file.getOriginalFilename());
+        String path = String.format("%s/%s/%s", S3_BUCKET_NAME, "plushy",plushyId);
+        fileName = String.format("%s.%s", fileName, "jpeg");
         try {
             fileService.upload(path, fileName, Optional.of(metadata), file.getInputStream());
-            return fileService.findByName("plushy/"+fileName);
+            return fileService.findByName(String.format("plushy/%s/%s", plushyId, fileName));
         } catch (IOException e) {
             throw new IllegalStateException("Failed to upload file", e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updatePlushyImage(String plushyId, MultipartFile file) {
+        PlushyInDB plushyInDB = plushyRepository.findById(Long.valueOf(plushyId)).orElseThrow();
+        String imageUrl = uploadPlushyImage(Long.valueOf(plushyId), plushyInDB.getName(), file);
+        plushyInDB.setImageUrl(imageUrl);
+    }
+
+    @Override
+    @Transactional
+    public void updatePlushy(Long plushyId, Plushy plushy) {
+        PlushyInDB plushyInDB = plushyRepository.findById(plushyId).orElseThrow();
+
+        if (plushy.getName() != null) {
+            plushyInDB.setName(plushy.getName());
+        }
+        if (plushy.getDescription() != null) {
+            plushyInDB.setDescription(plushy.getDescription());
+        }
+        if (plushy.getPrice() != null) {
+            plushyInDB.setPrice(plushy.getPrice());
+        }
+        if (plushy.getQuantity() != null) {
+            plushyInDB.setQuantity(plushy.getQuantity());
         }
     }
 }

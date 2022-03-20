@@ -1,4 +1,4 @@
-package com.example.demo.cart.model;
+package com.example.demo.cart.repository.models;
 
 import java.io.Serializable;
 import java.util.Objects;

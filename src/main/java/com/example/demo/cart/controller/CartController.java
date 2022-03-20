@@ -1,10 +1,9 @@
 package com.example.demo.cart.controller;
 
-import com.example.demo.cart.model.Cart;
-import com.example.demo.cart.model.CartId;
+import com.example.demo.cart.repository.models.CartInDB;
+import com.example.demo.cart.repository.models.CartId;
 import com.example.demo.cart.model.PlushyInCart;
 import com.example.demo.cart.service.CartService;
-import com.example.demo.crud.model.Plushy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +30,9 @@ public class CartController {
 
     @PostMapping(path = "/set")
     public Long setItemInCart(
-            @RequestBody Cart cart
+            @RequestBody CartInDB cartInDB
     ) {
-        return cartService.setItemInCart(cart);
+        return cartService.setItemInCart(cartInDB);
     }
 
     @PostMapping(path = "/delete")

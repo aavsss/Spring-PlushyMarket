@@ -1,7 +1,6 @@
 package com.example.demo.authorization.appuser.service;
 
-import com.amazonaws.services.fms.model.App;
-import com.example.demo.authorization.appuser.models.AppUser;
+import com.example.demo.authorization.appuser.repository.models.AppUserInDB;
 import com.example.demo.authorization.appuser.repository.AppUserRepository;
 import com.example.demo.authorization.security.dependency.JWTUtils;
 import lombok.AllArgsConstructor;
@@ -31,23 +30,23 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     }
 
     @Override
-    public String signUpUser(AppUser appUser) {
-        boolean userExists = appUserRepository.findByEmail(appUser.getEmail()).isPresent();
+    public String signUpUser(AppUserInDB appUserInDB) {
+        boolean userExists = appUserRepository.findByEmail(appUserInDB.getEmail()).isPresent();
         if (userExists) {
             throw new IllegalStateException("email already taken");
         }
-        String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
-        appUser.setPassword(encodedPassword);
+        String encodedPassword = bCryptPasswordEncoder.encode(appUserInDB.getPassword());
+        appUserInDB.setPassword(encodedPassword);
 
-        appUserRepository.save(appUser);
+        appUserRepository.save(appUserInDB);
 
-        String token = jwtUtils.getJWTToken(appUser.getEmail());
+        String token = jwtUtils.getJWTToken(appUserInDB.getEmail());
         return token;
     }
 
     @Override
     public String loginUser(String email, String password) {
-        Optional<AppUser> optionalAppUser = appUserRepository.findByEmail(email);
+        Optional<AppUserInDB> optionalAppUser = appUserRepository.findByEmail(email);
         boolean userExists = optionalAppUser.isPresent();
         if (userExists) {
             boolean isPasswordSame = bCryptPasswordEncoder.matches(password, optionalAppUser.get().getPassword());

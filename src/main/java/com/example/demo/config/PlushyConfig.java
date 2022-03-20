@@ -1,11 +1,11 @@
 package com.example.demo.config;
 
-import com.example.demo.authorization.appuser.models.AppUser;
+import com.example.demo.authorization.appuser.repository.models.AppUserInDB;
 import com.example.demo.authorization.appuser.models.AppUserRole;
 import com.example.demo.authorization.appuser.repository.AppUserRepository;
-import com.example.demo.cart.model.Cart;
+import com.example.demo.cart.repository.models.CartInDB;
 import com.example.demo.cart.repository.CartRepository;
-import com.example.demo.crud.model.Plushy;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.crud.repository.PlushyRepository;
 import com.example.demo.globalService.FileService.FileServiceImpl;
 import org.springframework.boot.CommandLineRunner;
@@ -27,7 +27,7 @@ public class PlushyConfig {
             BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
         return args -> {
-            Plushy naruto = new Plushy(
+            PlushyInDB naruto = new PlushyInDB(
                     "Naruto",
                     20,
                     5,
@@ -35,7 +35,7 @@ public class PlushyConfig {
                     fileService.findByName("plushy/naruto.png")
             );
 
-            Plushy sasuke = new Plushy(
+            PlushyInDB sasuke = new PlushyInDB(
                     "Sasuke",
                     19,
                     6,
@@ -48,18 +48,18 @@ public class PlushyConfig {
             );
 
             // Cart
-            Cart narutoInCart = new Cart(1L, 1L, 1);
-            cartRepository.save(narutoInCart);
+            CartInDB narutoInCartInDB = new CartInDB(1L, 1L, 1);
+            cartRepository.save(narutoInCartInDB);
 
             // user
-            AppUser appUser = new AppUser(
+            AppUserInDB appUserInDB = new AppUserInDB(
                     "Aavash",
                     "Sthapit",
                     "aavashsthapit@gmail.com",
                     bCryptPasswordEncoder.encode("password"),
                     AppUserRole.ADMIN
             );
-            appUserRepository.save(appUser);
+            appUserRepository.save(appUserInDB);
         };
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.authorization.appuser.repository;
 
-import com.example.demo.authorization.appuser.models.AppUser;
+import com.example.demo.authorization.appuser.repository.models.AppUserInDB;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,12 +11,12 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly= true)
-public interface AppUserRepository extends JpaRepository<AppUser, Long > {
-    Optional<AppUser> findByEmail(String email);
+public interface AppUserRepository extends JpaRepository<AppUserInDB, Long > {
+    Optional<AppUserInDB> findByEmail(String email);
 
     @Transactional
     @Modifying
-    @Query("UPDATE AppUser a " +
+    @Query("UPDATE AppUserInDB a " +
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableAppUser(String email);
 

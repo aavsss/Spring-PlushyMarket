@@ -1,17 +1,17 @@
 package com.example.demo.crud.service;
 
 import com.example.demo.crud.model.Plushy;
-import com.example.demo.crud.model.UploadRequestBody;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface  PlushyService {
-    List<Plushy> getPlushies();
-    Plushy getPlushyById(Long id);
-    void addPlushy(Plushy plushy);
+public interface PlushyService {
+    List<PlushyInDB> getPlushies();
+    PlushyInDB getPlushyById(Long id);
+    void addPlushy(PlushyInDB plushyInDB);
     void deletePlushy(Long plushyId);
     void uploadPlushy(String plushy, MultipartFile multipartFile);
-    String uploadPlushyImage(MultipartFile file);
-
+    void updatePlushy(Long plushyId, Plushy plushy);
+    void updatePlushyImage(String plushyId, MultipartFile file);
 }

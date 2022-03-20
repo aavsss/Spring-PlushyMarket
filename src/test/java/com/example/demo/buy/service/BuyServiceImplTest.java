@@ -3,7 +3,7 @@ package com.example.demo.buy.service;
 import com.example.demo.buy.model.BuyRequestBody;
 import com.example.demo.buy.repository.BuyRepository;
 import com.example.demo.cart.repository.CartRepository;
-import com.example.demo.crud.model.Plushy;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +35,8 @@ public class BuyServiceImplTest {
     @Test
     public void buyPlushyById_success() {
         List<BuyRequestBody> buyRequestBodies = List.of(new BuyRequestBody(1L, 3));
-        List<Plushy> plushiesFromRepo = new ArrayList<>();
-        List<Plushy> plushies = buyService.buyPlushyById(buyRequestBodies);
+        List<PlushyInDB> plushiesFromRepo = new ArrayList<>();
+        List<PlushyInDB> plushies = buyService.buyPlushyById(buyRequestBodies);
         when(mockBuyRepository.findAllById(any())).thenReturn(plushiesFromRepo);
 
         assert(plushies.size() == 0);

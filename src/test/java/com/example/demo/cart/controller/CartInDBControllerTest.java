@@ -1,11 +1,10 @@
 package com.example.demo.cart.controller;
 
-import com.example.demo.cart.model.Cart;
-import com.example.demo.cart.model.CartId;
+import com.example.demo.cart.repository.models.CartInDB;
+import com.example.demo.cart.repository.models.CartId;
 import com.example.demo.cart.model.PlushyInCart;
 import com.example.demo.cart.service.CartService;
 import com.example.demo.helper.ObjectConverter;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class CartControllerTest {
+class CartInDBControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,13 +43,13 @@ class CartControllerTest {
 
     @Test
     void setItemInCart_returns200() throws Exception {
-        Cart cart = new Cart();
+        CartInDB cartInDB = new CartInDB();
         Long numOfItemsInCart = 5L;
         when(mockCartService.setItemInCart(any())).thenReturn(numOfItemsInCart);
         mockMvc.perform(
                 post("/api/v1/plushy/cart/set")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectConverter.asJsonString(cart)))
+                .content(objectConverter.asJsonString(cartInDB)))
                 .andExpect(status().isOk());
     }
 

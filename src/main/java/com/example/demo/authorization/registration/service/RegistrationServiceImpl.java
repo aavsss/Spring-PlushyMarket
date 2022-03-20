@@ -1,6 +1,6 @@
 package com.example.demo.authorization.registration.service;
 
-import com.example.demo.authorization.appuser.models.AppUser;
+import com.example.demo.authorization.appuser.repository.models.AppUserInDB;
 import com.example.demo.authorization.appuser.models.AppUserRole;
 import com.example.demo.authorization.appuser.service.AppUserServiceImpl;
 import com.example.demo.authorization.registration.dependencies.EmailValidator;
@@ -22,7 +22,7 @@ public class RegistrationServiceImpl implements RegistrationService{
             throw new IllegalStateException("email not valid");
         }
         return appUserService.signUpUser(
-                new AppUser(
+                new AppUserInDB(
                         request.getFirstName(),
                         request.getLastName(),
                         request.getEmail(),
@@ -39,7 +39,7 @@ public class RegistrationServiceImpl implements RegistrationService{
             throw new IllegalStateException("email not valid");
         }
         return appUserService.signUpUser(
-                new AppUser(
+                new AppUserInDB(
                         request.getFirstName(),
                         request.getFirstName(),
                         request.getEmail(),

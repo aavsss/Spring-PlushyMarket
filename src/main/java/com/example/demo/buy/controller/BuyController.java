@@ -2,7 +2,6 @@ package com.example.demo.buy.controller;
 
 import com.example.demo.buy.model.BuyRequestBody;
 import com.example.demo.buy.service.BuyService;
-import com.example.demo.crud.model.Plushy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
 package com.example.demo.crud.controller;
 
 import com.example.demo.crud.model.Plushy;
-import com.example.demo.crud.model.UploadRequestBody;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.crud.service.PlushyService;
 import com.example.demo.globalService.FileService.FileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,38 +29,24 @@ public class PlushyController {
     }
 
     @GetMapping
-    public List<Plushy> getPlushies(
+    public List<PlushyInDB> getPlushies(
             @CookieValue(name = "token", defaultValue = "token") String jwtToken
     ) {
         return plushyService.getPlushies();
     }
 
     @GetMapping(path = "{plushyId}")
-    public Plushy getPlushyById(
+    public PlushyInDB getPlushyById(
             @PathVariable("plushyId") Long id
     ) {
         return plushyService.getPlushyById(id);
     }
-
-//    @PostMapping
-//    public void addPlushy(
-//            @RequestBody UploadRequestBody uploadRequestBody,
-//            HttpServletResponse response
-//    ) {
-//        System.out.println("/// ur " + uploadRequestBody.toString());
-//        plushyService.uploadPlushy(uploadRequestBody);
-//    }
 
     @DeleteMapping(path = "{plushyId}")
     public void deletePlushy(
             @PathVariable("plushyId") Long id
     ) {
         plushyService.deletePlushy(id);
-    }
-
-    @GetMapping(path = "/pic")
-    public String findByName() {
-        return fileService.findByName("plushy/naruto.png");
     }
 
     @PostMapping(
@@ -73,19 +59,28 @@ public class PlushyController {
             @RequestPart(value = "file", required = false) MultipartFile multipartFile,
             HttpServletResponse response
     ) {
-        System.out.println("/// ur " + plushy + " " + multipartFile.toString());
         plushyService.uploadPlushy(plushy, multipartFile);
     }
 
-    @PostMapping(
+    @PutMapping(
             path="/image",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public String uploadImage(
-            @RequestParam(value = "file", required = false) MultipartFile multipartFile
+    public void updatePlushyImage(
+            @RequestPart("id") String id,
+            @RequestPart(value = "file", required = false) MultipartFile multipartFile,
+            HttpServletResponse response
     ) {
-        return plushyService.uploadPlushyImage(multipartFile);
+        plushyService.updatePlushyImage(id, multipartFile);
+    }
+
+    @PutMapping(path = "/update/{plushyId}")
+    public void updatePlushy(
+            @PathVariable("plushyId") Long id,
+            @RequestBody Plushy plushy
+    ) {
+        plushyService.updatePlushy(id, plushy);
     }
 
 }

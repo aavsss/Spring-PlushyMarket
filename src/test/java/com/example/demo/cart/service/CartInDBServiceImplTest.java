@@ -1,13 +1,11 @@
 package com.example.demo.cart.service;
 
-import com.amazonaws.services.apigateway.model.Op;
-import com.example.demo.cart.model.Cart;
-import com.example.demo.cart.model.CartId;
+import com.example.demo.cart.repository.models.CartInDB;
+import com.example.demo.cart.repository.models.CartId;
 import com.example.demo.cart.model.PlushyInCart;
 import com.example.demo.cart.repository.CartRepository;
-import com.example.demo.crud.model.Plushy;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.crud.repository.PlushyRepository;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,15 +17,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class CartServiceImplTest {
+public class CartInDBServiceImplTest {
 
     @Mock
     private CartRepository mockCartRepository;
@@ -35,7 +31,7 @@ public class CartServiceImplTest {
     private PlushyRepository mockPlushyRepository;
     private CartServiceImpl cartService;
     @Captor
-    private ArgumentCaptor<Cart> cartArgumentCaptor;
+    private ArgumentCaptor<CartInDB> cartArgumentCaptor;
 
     @Before
     public void init() {
@@ -55,14 +51,14 @@ public class CartServiceImplTest {
     public void setItemInCart_firstTime_Success() {
         Long count = 1L;
 
-        Optional<Cart> cartOptional = Optional.empty();
+        Optional<CartInDB> cartOptional = Optional.empty();
         when(mockCartRepository.findById(any())).thenReturn(cartOptional);
-        Optional<Plushy> plushyOptional = Optional.empty();
+        Optional<PlushyInDB> plushyOptional = Optional.empty();
         when(mockPlushyRepository.findById(any())).thenReturn(plushyOptional);
         when(mockCartRepository.getCountOfCartOfUser(any())).thenReturn(count);
 
-        Cart cart = new Cart();
-        Long itemInCart = cartService.setItemInCart(cart);
+        CartInDB cartInDB = new CartInDB();
+        Long itemInCart = cartService.setItemInCart(cartInDB);
         assert(count.equals(itemInCart));
 
         verify(mockCartRepository, times(1)).save(cartArgumentCaptor.capture());
@@ -73,9 +69,9 @@ public class CartServiceImplTest {
 
     @Test
     public void setItemInCart_alreadyPresentCartPlushy_UnderQuantity_Success() {
-        Cart cart = new Cart(1L, 1L, 3);
-        Cart inputCart = new Cart(1L, 1L, 1);
-        Plushy plushy = new Plushy(
+        CartInDB cartInDB = new CartInDB(1L, 1L, 3);
+        CartInDB inputCartInDB = new CartInDB(1L, 1L, 1);
+        PlushyInDB plushyInDB = new PlushyInDB(
                 1L,
                 "Naruto",
                 20,
@@ -83,24 +79,24 @@ public class CartServiceImplTest {
                 "naruto is the next hokage",
                 "url"
         );
-        Optional<Cart> cartOptional = Optional.of(cart);
+        Optional<CartInDB> cartOptional = Optional.of(cartInDB);
         when(mockCartRepository.findById(any())).thenReturn(cartOptional);
-        Optional<Plushy> plushyOptional = Optional.of(plushy);
+        Optional<PlushyInDB> plushyOptional = Optional.of(plushyInDB);
         when(mockPlushyRepository.findById(any())).thenReturn(plushyOptional);
 
-        Long returnedCount = cartService.setItemInCart(inputCart);
+        Long returnedCount = cartService.setItemInCart(inputCartInDB);
 
         verify(mockCartRepository, times(1)).save(cartArgumentCaptor.capture());
         verify(mockCartRepository, times(1)).count();
-        assert(cartArgumentCaptor.getValue().equals(cart));
-        assert(cart.getQuantity().equals(4));
+        assert(cartArgumentCaptor.getValue().equals(cartInDB));
+        assert(cartInDB.getQuantity().equals(4));
     }
 
     @Test
     public void setItemInCart_alreadyPresentCart_overQuantity_success() {
-        Cart cart = new Cart(1L, 1L, 3);
-        Cart inputCart = new Cart(1L, 1L, 7);
-        Plushy plushy = new Plushy(
+        CartInDB cartInDB = new CartInDB(1L, 1L, 3);
+        CartInDB inputCartInDB = new CartInDB(1L, 1L, 7);
+        PlushyInDB plushyInDB = new PlushyInDB(
                 1L,
                 "Naruto",
                 20,
@@ -108,28 +104,28 @@ public class CartServiceImplTest {
                 "naruto is the next hokage",
                 "url"
         );
-        Optional<Cart> cartOptional = Optional.of(cart);
+        Optional<CartInDB> cartOptional = Optional.of(cartInDB);
         when(mockCartRepository.findById(any())).thenReturn(cartOptional);
-        Optional<Plushy> plushyOptional = Optional.of(plushy);
+        Optional<PlushyInDB> plushyOptional = Optional.of(plushyInDB);
         when(mockPlushyRepository.findById(any())).thenReturn(plushyOptional);
 //        when(mockCartRepository.getCountOfCartOfUser(any())).thenReturn(1L);
 
-        Long returnedCount = cartService.setItemInCart(inputCart);
+        Long returnedCount = cartService.setItemInCart(inputCartInDB);
 
 //        assert(returnedCount.equals(1L));
 
         verify(mockCartRepository, times(1)).save(cartArgumentCaptor.capture());
         verify(mockCartRepository, times(1)).count();
-        assert(cartArgumentCaptor.getValue().equals(cart));
-        assert(cart.getQuantity().equals(5));
+        assert(cartArgumentCaptor.getValue().equals(cartInDB));
+        assert(cartInDB.getQuantity().equals(5));
     }
 
     @Test
     public void deleteItemFromCart_success() {
         CartId cartId = new CartId(1L, 1L);
         Long id = 1L;
-        Cart cart = new Cart(1L, 1L, 3);
-        Optional<Cart> cartOptional = Optional.of(cart);
+        CartInDB cartInDB = new CartInDB(1L, 1L, 3);
+        Optional<CartInDB> cartOptional = Optional.of(cartInDB);
         when(mockCartRepository.findById(any())).thenReturn(cartOptional);
         when(mockCartRepository.getCountOfCartOfUser(any())).thenReturn(1L);
         Long returnedCount = cartService.deleteItemFromCart(cartId);

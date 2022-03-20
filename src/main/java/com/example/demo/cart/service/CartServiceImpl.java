@@ -1,10 +1,10 @@
 package com.example.demo.cart.service;
 
-import com.example.demo.cart.model.Cart;
-import com.example.demo.cart.model.CartId;
+import com.example.demo.cart.repository.models.CartInDB;
+import com.example.demo.cart.repository.models.CartId;
 import com.example.demo.cart.model.PlushyInCart;
 import com.example.demo.cart.repository.CartRepository;
-import com.example.demo.crud.model.Plushy;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.crud.repository.PlushyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,31 +32,31 @@ public class CartServiceImpl implements CartService{
 
     @Override
     @Transactional
-    public Long setItemInCart(Cart cart) {
-        Optional<Cart> cartOptional = cartRepository.findById(
-                new CartId(cart.getUserId(), cart.getProductId())
+    public Long setItemInCart(CartInDB cartInDB) {
+        Optional<CartInDB> cartOptional = cartRepository.findById(
+                new CartId(cartInDB.getUserId(), cartInDB.getProductId())
         );
-        Optional<Plushy> plushyOptional = plushyRepository.findById(cart.getProductId());
+        Optional<PlushyInDB> plushyOptional = plushyRepository.findById(cartInDB.getProductId());
         if (cartOptional.isPresent() && plushyOptional.isPresent()) {
-            Cart alreadyPresentCart = cartOptional.get();
-            Plushy plushyInQuestion = plushyOptional.get();
-            Integer quantityToSet = alreadyPresentCart.getQuantity() + cart.getQuantity();
-            if (quantityToSet > plushyInQuestion.getQuantity()) {
-                alreadyPresentCart.setQuantity(plushyInQuestion.getQuantity());
+            CartInDB alreadyPresentCartInDB = cartOptional.get();
+            PlushyInDB plushyInDBInQuestion = plushyOptional.get();
+            Integer quantityToSet = alreadyPresentCartInDB.getQuantity() + cartInDB.getQuantity();
+            if (quantityToSet > plushyInDBInQuestion.getQuantity()) {
+                alreadyPresentCartInDB.setQuantity(plushyInDBInQuestion.getQuantity());
             } else {
-                alreadyPresentCart.setQuantity(quantityToSet);
+                alreadyPresentCartInDB.setQuantity(quantityToSet);
             }
-            cartRepository.save(alreadyPresentCart);
+            cartRepository.save(alreadyPresentCartInDB);
             return cartRepository.count();
         }
-        cartRepository.save(cart);
-        return getNumInCart(cart.getUserId());
+        cartRepository.save(cartInDB);
+        return getNumInCart(cartInDB.getUserId());
     }
 
     @Override
     @Transactional
     public Long deleteItemFromCart(CartId cartId) {
-        Optional<Cart> cartOptional = cartRepository.findById(cartId);
+        Optional<CartInDB> cartOptional = cartRepository.findById(cartId);
         cartOptional.ifPresent(cartRepository::delete);
         return getNumInCart(cartId.getUserId());
     }

@@ -1,26 +1,22 @@
 package com.example.demo.crud.controller;
 
-import com.example.demo.crud.model.Plushy;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.crud.service.PlushyService;
 import com.example.demo.globalService.FileService.FileServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -28,7 +24,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class PlushyControllerTest {
+class PlushyInDBInDBControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,7 +36,7 @@ class PlushyControllerTest {
 
     @Test
     void getAllPlushies_returns200() throws Exception {
-        List<Plushy> plushies = new ArrayList<>();
+        List<PlushyInDB> plushies = new ArrayList<>();
         Mockito.when(mockPlushyService.getPlushies()).thenReturn(plushies);
         mockMvc.perform(
                 get("/api/v1/plushy"))
@@ -49,8 +45,8 @@ class PlushyControllerTest {
 
     @Test
     void getPlushyById_returns200() throws Exception {
-        Plushy plushy = new Plushy();
-        Mockito.when(mockPlushyService.getPlushyById(any())).thenReturn(plushy);
+        PlushyInDB plushyInDB = new PlushyInDB();
+        Mockito.when(mockPlushyService.getPlushyById(any())).thenReturn(plushyInDB);
         mockMvc.perform(
                 get("/api/v1/plushy/{plushyId}", 1))
                 .andExpect(status().isOk());
@@ -59,11 +55,11 @@ class PlushyControllerTest {
 
     @Test
     void addPlushy_returns200() throws Exception {
-        Plushy plushy = new Plushy();
+        PlushyInDB plushyInDB = new PlushyInDB();
         mockMvc.perform(
                 post("/api/v1/plushy")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(plushy)))
+                .content(asJsonString(plushyInDB)))
                 .andExpect(status().isOk());
     }
 
