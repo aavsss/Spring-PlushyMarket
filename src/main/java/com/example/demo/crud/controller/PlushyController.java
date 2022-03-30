@@ -3,8 +3,7 @@ package com.example.demo.crud.controller;
 import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.crud.service.PlushyService;
-import com.example.demo.globalService.FileService.FileServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,19 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/plushy")
+@AllArgsConstructor
 public class PlushyController {
 
     private final PlushyService plushyService;
-    private final FileServiceImpl fileService;
-
-    @Autowired
-    public PlushyController(
-            PlushyService plushyService,
-            FileServiceImpl fileService
-    ){
-        this.plushyService = plushyService;
-        this.fileService = fileService;
-    }
 
     @GetMapping
     public List<PlushyInDB> getPlushies(
@@ -82,5 +72,4 @@ public class PlushyController {
     ) {
         plushyService.updatePlushy(id, plushy);
     }
-
 }

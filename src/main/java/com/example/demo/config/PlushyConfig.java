@@ -59,7 +59,14 @@ public class PlushyConfig {
                     bCryptPasswordEncoder.encode("password"),
                     AppUserRole.ADMIN
             );
-            appUserRepository.save(appUserInDB);
+            AppUserInDB seller = new AppUserInDB(
+                    "Peter",
+                    "Parker",
+                    "peterparker@gmail.com",
+                    bCryptPasswordEncoder.encode("password"),
+                    AppUserRole.SELLER
+            );
+            appUserRepository.saveAll(List.of(appUserInDB, seller));
         };
     }
 }

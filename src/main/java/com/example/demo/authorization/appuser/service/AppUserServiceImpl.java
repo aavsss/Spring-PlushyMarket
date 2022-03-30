@@ -40,8 +40,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
         appUserRepository.save(appUserInDB);
 
-        String token = jwtUtils.getJWTToken(appUserInDB.getEmail());
-        return token;
+        return jwtUtils.createJWTToken(appUserInDB.getEmail(), appUserInDB.getAppUserRole());
     }
 
     @Override
@@ -53,8 +52,7 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
             if (!isPasswordSame) {
                 throw new IllegalStateException("Incorrect password");
             }
-            String token = jwtUtils.getJWTToken(email);
-            return token;
+            return jwtUtils.createJWTToken(email, optionalAppUser.get().getAppUserRole());
         }
         throw new IllegalStateException("User not found");
     }
