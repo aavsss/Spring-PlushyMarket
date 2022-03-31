@@ -38,6 +38,12 @@ public class PlushyServiceImpl implements PlushyService{
     }
 
     @Override
+    public List<PlushyInDB> getPlushiesByOwner(Long ownerId) {
+        Optional<List<PlushyInDB>> plushyInDBOptional = plushyRepository.findAllByOwner(ownerId);
+        return plushyInDBOptional.orElse(List.of());
+    }
+
+    @Override
     public void addPlushy(PlushyInDB plushyInDB) {
         Optional<PlushyInDB> plushyOptional = plushyRepository.findById(plushyInDB.getId());
         if (plushyOptional.isPresent()) {
@@ -68,7 +74,8 @@ public class PlushyServiceImpl implements PlushyService{
                         Math.toIntExact(plushyJson.getPrice()),
                         plushyJson.getQuantity(),
                         plushyJson.getDescription(),
-                        imageUrl
+                        imageUrl,
+                        plushyJson.getOwnerId()
                 )
         );
         if (multipartFile != null && !multipartFile.isEmpty()) {
@@ -83,7 +90,7 @@ public class PlushyServiceImpl implements PlushyService{
             ObjectMapper objectMapper = new ObjectMapper();
             plushy = objectMapper.readValue(plushyStr, Plushy.class);
         } catch (IOException err) {
-            System.out.println("Error "+ err.toString());
+            System.out.println("Error "+ err);
         }
         System.out.println("/// json " + plushy);
         return plushy;

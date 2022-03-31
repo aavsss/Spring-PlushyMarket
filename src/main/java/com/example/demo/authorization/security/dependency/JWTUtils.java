@@ -50,18 +50,11 @@ public class JWTUtils {
         Base64.Decoder decoder = Base64.getUrlDecoder();
         token = token.substring(7);
         String[] chunks = token.split("\\.");
-        String header = new String(decoder.decode(chunks[0]));
         String payload = new String(decoder.decode(chunks[1]));
 
         ObjectMapper mapper = new ObjectMapper();
         try{
-            Map<String, Object> map = mapper.readValue(payload, Map.class);
-            JWTPayload jwtPayload = new JWTPayload();
-            jwtPayload.setEmail((String) map.get("email"));
-            jwtPayload.setAuthorities((List<String>) map.get("authorities"));
-            jwtPayload.setIat((Integer) map.get("iat"));
-            jwtPayload.setExp((Integer) map.get("exp"));
-            return jwtPayload;
+            return mapper.readValue(payload, JWTPayload.class);
         } catch (JsonProcessingException e) {
             System.out.println("exception while processing json " + e.getMessage());
         }

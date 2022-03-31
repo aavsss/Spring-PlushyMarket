@@ -32,6 +32,13 @@ public class PlushyController {
         return plushyService.getPlushyById(id);
     }
 
+    @GetMapping(path = "/owner/{ownerId}")
+    public List<PlushyInDB> getPlushiesByOwner(
+            @PathVariable("ownerId") Long ownerId
+    ) {
+        return plushyService.getPlushiesByOwner(ownerId);
+    }
+
     @DeleteMapping(path = "{plushyId}")
     public void deletePlushy(
             @PathVariable("plushyId") Long id

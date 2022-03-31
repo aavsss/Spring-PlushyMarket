@@ -31,7 +31,8 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     @Override
     public String signUpUser(AppUserInDB appUserInDB) {
-        boolean userExists = appUserRepository.findByEmail(appUserInDB.getEmail()).isPresent();
+        Optional<AppUserInDB> optionalAppUser = appUserRepository.findByEmail(appUserInDB.getEmail());
+        boolean userExists = optionalAppUser.isPresent();
         if (userExists) {
             throw new IllegalStateException("email already taken");
         }

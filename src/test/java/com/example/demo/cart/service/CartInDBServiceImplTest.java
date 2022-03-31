@@ -77,7 +77,8 @@ public class CartInDBServiceImplTest {
                 20,
                 5,
                 "naruto is the next hokage",
-                "url"
+                "url",
+                2L
         );
         Optional<CartInDB> cartOptional = Optional.of(cartInDB);
         when(mockCartRepository.findById(any())).thenReturn(cartOptional);
@@ -102,7 +103,8 @@ public class CartInDBServiceImplTest {
                 20,
                 5,
                 "naruto is the next hokage",
-                "url"
+                "url",
+                2L
         );
         Optional<CartInDB> cartOptional = Optional.of(cartInDB);
         when(mockCartRepository.findById(any())).thenReturn(cartOptional);

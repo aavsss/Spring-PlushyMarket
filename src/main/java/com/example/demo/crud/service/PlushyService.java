@@ -9,6 +9,7 @@ import java.util.List;
 public interface PlushyService {
     List<PlushyInDB> getPlushies();
     PlushyInDB getPlushyById(Long id);
+    List<PlushyInDB> getPlushiesByOwner(Long ownerId);
     void addPlushy(PlushyInDB plushyInDB);
     void deletePlushy(Long plushyId);
     void uploadPlushy(String plushy, MultipartFile multipartFile);

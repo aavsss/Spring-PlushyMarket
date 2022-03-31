@@ -23,6 +23,7 @@ public class PlushyInDB {
     private String description;
     @Column(length = 1024)
     private String imageUrl;
+    private Long ownerId;
 
     public PlushyInDB() {
     }
@@ -33,13 +34,16 @@ public class PlushyInDB {
             Integer price,
             Integer quantity,
             String description,
-            String imageUrl) {
+            String imageUrl,
+            Long ownerId
+    ) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.ownerId = ownerId;
     }
 
     public PlushyInDB(
@@ -47,12 +51,15 @@ public class PlushyInDB {
             Integer price,
             Integer quantity,
             String description,
-            String imageUrl) {
+            String imageUrl,
+            Long ownerId
+    ) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.ownerId = ownerId;
     }
 
     public Long getId() {
@@ -101,6 +108,14 @@ public class PlushyInDB {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Override

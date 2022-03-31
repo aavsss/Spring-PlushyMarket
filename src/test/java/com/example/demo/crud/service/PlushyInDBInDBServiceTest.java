@@ -48,13 +48,15 @@ public class PlushyInDBInDBServiceTest {
                         20,
                         5,
                         "naruto is the next hokage",
-                        ""
+                        "",
+                        2L
                 ), new PlushyInDB(
                         "Sasuke",
                         19,
                         6,
                         "sasuke unlocks mangekyou sharingan",
-                        ""
+                        "",
+                        2L
                 )).collect(Collectors.toList()));
         List<PlushyInDB> returnedPlushyInDB = plushyService.getPlushies();
         assert(returnedPlushyInDB.size() == 2);
@@ -78,7 +80,8 @@ public class PlushyInDBInDBServiceTest {
                 20,
                 5,
                 "naruto is the next hokage",
-                ""
+                "",
+                2L
         );
         Long id = 1L;
         when(mockPlushyRepository.findById(any())).thenReturn(Optional.of(plushyInDB));
@@ -105,7 +108,8 @@ public class PlushyInDBInDBServiceTest {
                 20,
                 5,
                 "naruto is the next hokage",
-                ""
+                "",
+                2L
         );
         when(mockPlushyRepository.findById(any())).thenReturn(Optional.empty());
         plushyService.addPlushy(plushyInDB);
@@ -120,7 +124,8 @@ public class PlushyInDBInDBServiceTest {
                 20,
                 5,
                 "naruto is the next hokage",
-                ""
+                "",
+                2L
         );
         when(mockPlushyRepository.findById(any())).thenReturn(Optional.of(plushyInDB));
         plushyService.addPlushy(plushyInDB);

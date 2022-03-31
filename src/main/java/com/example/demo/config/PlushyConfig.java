@@ -27,30 +27,6 @@ public class PlushyConfig {
             BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
         return args -> {
-            PlushyInDB naruto = new PlushyInDB(
-                    "Naruto",
-                    20,
-                    5,
-                    "naruto is the next hokage",
-                    fileService.findByName("plushy/naruto.png")
-            );
-
-            PlushyInDB sasuke = new PlushyInDB(
-                    "Sasuke",
-                    19,
-                    6,
-                    "sasuke unlocks mangekyou sharingan",
-                    fileService.findByName("plushy/sasuke.jpg")
-            );
-
-            plushyRepository.saveAll(
-                    List.of(naruto, sasuke)
-            );
-
-            // Cart
-            CartInDB narutoInCartInDB = new CartInDB(1L, 1L, 1);
-            cartRepository.save(narutoInCartInDB);
-
             // user
             AppUserInDB appUserInDB = new AppUserInDB(
                     "Aavash",
@@ -67,6 +43,34 @@ public class PlushyConfig {
                     AppUserRole.SELLER
             );
             appUserRepository.saveAll(List.of(appUserInDB, seller));
+
+            PlushyInDB naruto = new PlushyInDB(
+                    "Naruto",
+                    20,
+                    5,
+                    "naruto is the next hokage",
+                    fileService.findByName("plushy/naruto.png"),
+                    1L
+            );
+
+            PlushyInDB sasuke = new PlushyInDB(
+                    "Sasuke",
+                    19,
+                    6,
+                    "sasuke unlocks mangekyou sharingan",
+                    fileService.findByName("plushy/sasuke.jpg"),
+                    2L
+            );
+
+            plushyRepository.saveAll(
+                    List.of(naruto, sasuke)
+            );
+
+            // Cart
+            CartInDB narutoInCartInDB = new CartInDB(1L, 1L, 1);
+            cartRepository.save(narutoInCartInDB);
+
+
         };
     }
 }
