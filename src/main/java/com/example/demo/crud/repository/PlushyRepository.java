@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface PlushyRepository
         extends JpaRepository<PlushyInDB, Long> {
 
-    @Query("SELECT p FROM PlushyInDB p WHERE p.ownerId=?1")
-    Optional<List<PlushyInDB>> findAllByOwner(Long ownerId);
+    @Query("SELECT p FROM PlushyInDB p WHERE p.ownerEmail=?1")
+    Optional<List<PlushyInDB>> findAllByOwner(String ownerEmail);
 }

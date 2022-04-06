@@ -32,11 +32,11 @@ public class PlushyController {
         return plushyService.getPlushyById(id);
     }
 
-    @GetMapping(path = "/owner/{ownerId}")
+    @GetMapping(path = "/owner")
     public List<PlushyInDB> getPlushiesByOwner(
-            @PathVariable("ownerId") Long ownerId
+            @CookieValue(name = "token", defaultValue = "token") String jwtToken
     ) {
-        return plushyService.getPlushiesByOwner(ownerId);
+        return plushyService.getPlushiesByOwner(jwtToken);
     }
 
     @DeleteMapping(path = "{plushyId}")
@@ -60,7 +60,7 @@ public class PlushyController {
     }
 
     @PutMapping(
-            path="/image",
+            path = "/image",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE
     )

@@ -1,8 +1,10 @@
 package com.example.demo.crud.service;
 
-import com.example.demo.crud.repository.models.PlushyInDB;
+import com.example.demo.appUser.security.dependency.JWTPayload;
+import com.example.demo.appUser.security.dependency.JWTUtils;
 import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.repository.PlushyRepository;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.globalService.FileService.FileService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -19,10 +21,11 @@ import static org.apache.http.entity.ContentType.*;
 
 @Service
 @AllArgsConstructor
-public class PlushyServiceImpl implements PlushyService{
+public class PlushyServiceImpl implements PlushyService {
 
     private final PlushyRepository plushyRepository;
     private final FileService fileService;
+    private final JWTUtils jwtUtils;
 
     @Override
     public List<PlushyInDB> getPlushies() {
@@ -38,8 +41,9 @@ public class PlushyServiceImpl implements PlushyService{
     }
 
     @Override
-    public List<PlushyInDB> getPlushiesByOwner(Long ownerId) {
-        Optional<List<PlushyInDB>> plushyInDBOptional = plushyRepository.findAllByOwner(ownerId);
+    public List<PlushyInDB> getPlushiesByOwner(String jwtToken) {
+        JWTPayload jwtPayload = jwtUtils.decodeJWTToken(jwtToken);
+        Optional<List<PlushyInDB>> plushyInDBOptional = plushyRepository.findAllByOwner(jwtPayload.getEmail());
         return plushyInDBOptional.orElse(List.of());
     }
 
@@ -75,7 +79,7 @@ public class PlushyServiceImpl implements PlushyService{
                         plushyJson.getQuantity(),
                         plushyJson.getDescription(),
                         imageUrl,
-                        plushyJson.getOwnerId()
+                        plushyJson.getOwnerEmail()
                 )
         );
         if (multipartFile != null && !multipartFile.isEmpty()) {
@@ -90,7 +94,7 @@ public class PlushyServiceImpl implements PlushyService{
             ObjectMapper objectMapper = new ObjectMapper();
             plushy = objectMapper.readValue(plushyStr, Plushy.class);
         } catch (IOException err) {
-            System.out.println("Error "+ err);
+            System.out.println("Error " + err);
         }
         System.out.println("/// json " + plushy);
         return plushy;
@@ -111,7 +115,7 @@ public class PlushyServiceImpl implements PlushyService{
         metadata.put("Content-Type", file.getContentType());
         metadata.put("Content-Length", String.valueOf(file.getSize()));
         // save image in s3 and then save image in the database
-        String path = String.format("%s/%s/%s", S3_BUCKET_NAME, "plushy",plushyId);
+        String path = String.format("%s/%s/%s", S3_BUCKET_NAME, "plushy", plushyId);
         fileName = String.format("%s.%s", fileName, "jpeg");
         try {
             fileService.upload(path, fileName, Optional.of(metadata), file.getInputStream());

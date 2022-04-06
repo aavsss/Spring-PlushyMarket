@@ -8,11 +8,18 @@ import java.util.List;
 
 public interface PlushyService {
     List<PlushyInDB> getPlushies();
+
     PlushyInDB getPlushyById(Long id);
-    List<PlushyInDB> getPlushiesByOwner(Long ownerId);
+
+    List<PlushyInDB> getPlushiesByOwner(String jwtToken);
+
     void addPlushy(PlushyInDB plushyInDB);
+
     void deletePlushy(Long plushyId);
+
     void uploadPlushy(String plushy, MultipartFile multipartFile);
+
     void updatePlushy(Long plushyId, Plushy plushy);
+
     void updatePlushyImage(String plushyId, MultipartFile file);
 }

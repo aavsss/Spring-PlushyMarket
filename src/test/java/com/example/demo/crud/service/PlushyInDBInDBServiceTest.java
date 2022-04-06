@@ -1,12 +1,15 @@
 package com.example.demo.crud.service;
 
-import com.example.demo.crud.repository.models.PlushyInDB;
+import com.example.demo.appUser.security.dependency.JWTUtils;
 import com.example.demo.crud.repository.PlushyRepository;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.globalService.FileService.FileService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
@@ -28,6 +31,8 @@ public class PlushyInDBInDBServiceTest {
     private PlushyRepository mockPlushyRepository;
     @Mock
     private FileService mockFileService;
+    @Mock
+    private JWTUtils mockJwtUtils;
     @Captor
     ArgumentCaptor<Sort> argumentCaptor;
     @Captor
@@ -37,11 +42,11 @@ public class PlushyInDBInDBServiceTest {
 
     @Before
     public void init() {
-        plushyService = new PlushyServiceImpl(mockPlushyRepository, mockFileService);
+        plushyService = new PlushyServiceImpl(mockPlushyRepository, mockFileService, mockJwtUtils);
     }
 
     @Test
-    public void getPlushies_success(){
+    public void getPlushies_success() {
         when(mockPlushyRepository.findAll(Sort.by(Sort.Direction.ASC, "id"))).thenReturn(
                 Stream.of(new PlushyInDB(
                         "Naruto",
@@ -49,28 +54,28 @@ public class PlushyInDBInDBServiceTest {
                         5,
                         "naruto is the next hokage",
                         "",
-                        2L
+                        ""
                 ), new PlushyInDB(
                         "Sasuke",
                         19,
                         6,
                         "sasuke unlocks mangekyou sharingan",
                         "",
-                        2L
+                        ""
                 )).collect(Collectors.toList()));
         List<PlushyInDB> returnedPlushyInDB = plushyService.getPlushies();
-        assert(returnedPlushyInDB.size() == 2);
+        assert (returnedPlushyInDB.size() == 2);
         verify(mockPlushyRepository, times(1)).findAll(argumentCaptor.capture());
-        assert(argumentCaptor.getValue().equals(Sort.by(Sort.Direction.ASC, "id")));
+        assert (argumentCaptor.getValue().equals(Sort.by(Sort.Direction.ASC, "id")));
     }
 
     @Test
     public void getPlushies_nullValues_success() {
         when(mockPlushyRepository.findAll(Sort.by(Sort.Direction.ASC, "id"))).thenReturn(null);
         List<PlushyInDB> returnedPlushyInDB = plushyService.getPlushies();
-        assert(returnedPlushyInDB == null);
+        assert (returnedPlushyInDB == null);
         verify(mockPlushyRepository, times(1)).findAll(argumentCaptor.capture());
-        assert(argumentCaptor.getValue().equals(Sort.by(Sort.Direction.ASC, "id")));
+        assert (argumentCaptor.getValue().equals(Sort.by(Sort.Direction.ASC, "id")));
     }
 
     @Test
@@ -81,14 +86,14 @@ public class PlushyInDBInDBServiceTest {
                 5,
                 "naruto is the next hokage",
                 "",
-                2L
+                ""
         );
         Long id = 1L;
         when(mockPlushyRepository.findById(any())).thenReturn(Optional.of(plushyInDB));
         PlushyInDB returnedPlushyInDB = plushyService.getPlushyById(id);
-        assert(returnedPlushyInDB.equals(plushyInDB));
+        assert (returnedPlushyInDB.equals(plushyInDB));
         verify(mockPlushyRepository, times(1)).findById(longArgumentCaptor.capture());
-        assert(Objects.equals(longArgumentCaptor.getValue(), id));
+        assert (Objects.equals(longArgumentCaptor.getValue(), id));
     }
 
     @Test
@@ -96,9 +101,9 @@ public class PlushyInDBInDBServiceTest {
         Long id = 1L;
         when(mockPlushyRepository.findById(any())).thenReturn(Optional.ofNullable(null));
         PlushyInDB returnedPlushyInDB = plushyService.getPlushyById(id);
-        assert(returnedPlushyInDB == null);
+        assert (returnedPlushyInDB == null);
         verify(mockPlushyRepository, times(1)).findById(longArgumentCaptor.capture());
-        assert(Objects.equals(longArgumentCaptor.getValue(), id));
+        assert (Objects.equals(longArgumentCaptor.getValue(), id));
     }
 
     @Test
@@ -109,12 +114,12 @@ public class PlushyInDBInDBServiceTest {
                 5,
                 "naruto is the next hokage",
                 "",
-                2L
+                ""
         );
         when(mockPlushyRepository.findById(any())).thenReturn(Optional.empty());
         plushyService.addPlushy(plushyInDB);
         verify(mockPlushyRepository, times(1)).save(plushyArgumentCaptor.capture());
-        assert(plushyInDB.equals(plushyArgumentCaptor.getValue()));
+        assert (plushyInDB.equals(plushyArgumentCaptor.getValue()));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -125,7 +130,7 @@ public class PlushyInDBInDBServiceTest {
                 5,
                 "naruto is the next hokage",
                 "",
-                2L
+                ""
         );
         when(mockPlushyRepository.findById(any())).thenReturn(Optional.of(plushyInDB));
         plushyService.addPlushy(plushyInDB);
@@ -137,7 +142,7 @@ public class PlushyInDBInDBServiceTest {
         when(mockPlushyRepository.existsById(any())).thenReturn(true);
         plushyService.deletePlushy(id);
         verify(mockPlushyRepository, times(1)).deleteById(longArgumentCaptor.capture());
-        assert(Objects.equals(longArgumentCaptor.getValue(), id));
+        assert (Objects.equals(longArgumentCaptor.getValue(), id));
     }
 
     @Test(expected = IllegalStateException.class)

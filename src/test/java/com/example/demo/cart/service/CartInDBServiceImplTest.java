@@ -1,11 +1,11 @@
 package com.example.demo.cart.service;
 
-import com.example.demo.cart.repository.models.CartInDB;
-import com.example.demo.cart.repository.models.CartId;
 import com.example.demo.cart.model.PlushyInCart;
 import com.example.demo.cart.repository.CartRepository;
-import com.example.demo.crud.repository.models.PlushyInDB;
+import com.example.demo.cart.repository.models.CartId;
+import com.example.demo.cart.repository.models.CartInDB;
 import com.example.demo.crud.repository.PlushyRepository;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +44,7 @@ public class CartInDBServiceImplTest {
         Long userId = 1L;
         when(mockCartRepository.getCountOfCartOfUser(any())).thenReturn(count);
         Long returnedCount = cartService.getNumInCart(userId);
-        assert(count.equals(returnedCount));
+        assert (count.equals(returnedCount));
     }
 
     @Test
@@ -59,10 +59,10 @@ public class CartInDBServiceImplTest {
 
         CartInDB cartInDB = new CartInDB();
         Long itemInCart = cartService.setItemInCart(cartInDB);
-        assert(count.equals(itemInCart));
+        assert (count.equals(itemInCart));
 
         verify(mockCartRepository, times(1)).save(cartArgumentCaptor.capture());
-        assert(cartArgumentCaptor.getValue() != null);
+        assert (cartArgumentCaptor.getValue() != null);
         verify(mockCartRepository, times(1)).findById(any());
         verify(mockPlushyRepository, times(1)).findById(any());
     }
@@ -78,7 +78,7 @@ public class CartInDBServiceImplTest {
                 5,
                 "naruto is the next hokage",
                 "url",
-                2L
+                ""
         );
         Optional<CartInDB> cartOptional = Optional.of(cartInDB);
         when(mockCartRepository.findById(any())).thenReturn(cartOptional);
@@ -89,8 +89,8 @@ public class CartInDBServiceImplTest {
 
         verify(mockCartRepository, times(1)).save(cartArgumentCaptor.capture());
         verify(mockCartRepository, times(1)).count();
-        assert(cartArgumentCaptor.getValue().equals(cartInDB));
-        assert(cartInDB.getQuantity().equals(4));
+        assert (cartArgumentCaptor.getValue().equals(cartInDB));
+        assert (cartInDB.getQuantity().equals(4));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class CartInDBServiceImplTest {
                 5,
                 "naruto is the next hokage",
                 "url",
-                2L
+                ""
         );
         Optional<CartInDB> cartOptional = Optional.of(cartInDB);
         when(mockCartRepository.findById(any())).thenReturn(cartOptional);
@@ -118,8 +118,8 @@ public class CartInDBServiceImplTest {
 
         verify(mockCartRepository, times(1)).save(cartArgumentCaptor.capture());
         verify(mockCartRepository, times(1)).count();
-        assert(cartArgumentCaptor.getValue().equals(cartInDB));
-        assert(cartInDB.getQuantity().equals(5));
+        assert (cartArgumentCaptor.getValue().equals(cartInDB));
+        assert (cartInDB.getQuantity().equals(5));
     }
 
     @Test
@@ -132,7 +132,7 @@ public class CartInDBServiceImplTest {
         when(mockCartRepository.getCountOfCartOfUser(any())).thenReturn(1L);
         Long returnedCount = cartService.deleteItemFromCart(cartId);
 
-        assert(returnedCount.equals(1L));
+        assert (returnedCount.equals(1L));
 
         ArgumentCaptor<CartId> cartIdArgumentCaptor = ArgumentCaptor.forClass(CartId.class);
         ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
@@ -141,8 +141,8 @@ public class CartInDBServiceImplTest {
         verify(mockCartRepository, times(1)).delete(any());
         verify(mockCartRepository, times(1)).getCountOfCartOfUser(longArgumentCaptor.capture());
 
-        assert(cartIdArgumentCaptor.getValue().equals(cartId));
-        assert(longArgumentCaptor.getValue().equals(id));
+        assert (cartIdArgumentCaptor.getValue().equals(cartId));
+        assert (longArgumentCaptor.getValue().equals(id));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class CartInDBServiceImplTest {
         List<PlushyInCart> plushyInCartList = List.of(new PlushyInCart());
         when(mockCartRepository.getPlushyInfoFromCartOf()).thenReturn(plushyInCartList);
         List<PlushyInCart> returnedPlushy = cartService.getPlushiesInCart(id);
-        assert(returnedPlushy.equals(plushyInCartList));
+        assert (returnedPlushy.equals(plushyInCartList));
 
         verify(mockCartRepository, times(1)).getPlushyInfoFromCartOf();
     }

@@ -1,12 +1,12 @@
 package com.example.demo.config;
 
-import com.example.demo.authorization.appuser.repository.models.AppUserInDB;
-import com.example.demo.authorization.appuser.models.AppUserRole;
-import com.example.demo.authorization.appuser.repository.AppUserRepository;
-import com.example.demo.cart.repository.models.CartInDB;
+import com.example.demo.appUser.repository.AppUserRepository;
+import com.example.demo.appUser.repository.models.AppUserInDB;
+import com.example.demo.appUser.user.models.AppUserRole;
 import com.example.demo.cart.repository.CartRepository;
-import com.example.demo.crud.repository.models.PlushyInDB;
+import com.example.demo.cart.repository.models.CartInDB;
 import com.example.demo.crud.repository.PlushyRepository;
+import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.globalService.FileService.FileServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -50,7 +50,7 @@ public class PlushyConfig {
                     5,
                     "naruto is the next hokage",
                     fileService.findByName("plushy/naruto.png"),
-                    1L
+                    "aavashsthapit@gmail.com"
             );
 
             PlushyInDB sasuke = new PlushyInDB(
@@ -59,7 +59,7 @@ public class PlushyConfig {
                     6,
                     "sasuke unlocks mangekyou sharingan",
                     fileService.findByName("plushy/sasuke.jpg"),
-                    2L
+                    "peterparker@gmail.com"
             );
 
             plushyRepository.saveAll(
