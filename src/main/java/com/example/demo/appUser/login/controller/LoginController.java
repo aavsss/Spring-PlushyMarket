@@ -2,7 +2,6 @@ package com.example.demo.appUser.login.controller;
 
 import com.example.demo.appUser.login.model.LoginRequestBody;
 import com.example.demo.appUser.login.service.LoginService;
-import com.example.demo.appUser.registration.service.RegistrationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +18,12 @@ import java.net.URLEncoder;
 public class LoginController {
 
     private final LoginService loginService;
-    private final RegistrationService registrationService;
 
-    @PostMapping
+    @PostMapping("")
     public String login(
             @RequestBody LoginRequestBody requestBody,
-            HttpServletResponse response) throws UnsupportedEncodingException {
-
+            HttpServletResponse response
+    ) throws UnsupportedEncodingException {
         String token = loginService.login(requestBody.getEmail(), requestBody.getPassword());
 
         Cookie cookie = new Cookie("token", URLEncoder.encode(token, "UTF-8"));
@@ -35,6 +33,21 @@ public class LoginController {
         response.addCookie(cookie);
 
         return token;
+    }
+
+    @PostMapping("/logout")
+    public String logout(
+            HttpServletResponse response
+    ) throws UnsupportedEncodingException {
+
+        Cookie cookie = new Cookie("token", "");
+        cookie.setSecure(false);
+        cookie.setHttpOnly(false);
+        cookie.setMaxAge(60);
+        cookie.setPath("/api/v1");
+        response.addCookie(cookie);
+
+        return "Loggin out";
     }
 
 }

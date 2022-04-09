@@ -40,7 +40,7 @@ public class PlushyConfig {
                     "Parker",
                     "peterparker@gmail.com",
                     bCryptPasswordEncoder.encode("password"),
-                    AppUserRole.SELLER
+                    AppUserRole.USER
             );
             appUserRepository.saveAll(List.of(appUserInDB, seller));
 
