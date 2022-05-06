@@ -6,6 +6,7 @@ import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.repository.PlushyRepository;
 import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.globalService.FileService.FileService;
+import com.example.demo.globalService.StringValidator.StringValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -26,6 +27,7 @@ public class PlushyServiceImpl implements PlushyService {
     private final PlushyRepository plushyRepository;
     private final FileService fileService;
     private final JWTUtils jwtUtils;
+    private final StringValidator stringValidator;
 
     @Override
     public List<PlushyInDB> getPlushies() {
@@ -127,28 +129,31 @@ public class PlushyServiceImpl implements PlushyService {
 
     @Override
     @Transactional
-    public void updatePlushyImage(String plushyId, MultipartFile file) {
-        PlushyInDB plushyInDB = plushyRepository.findById(Long.valueOf(plushyId)).orElseThrow();
+    public void updatePlushyImage(Long plushyId, MultipartFile file) {
+        PlushyInDB plushyInDB = plushyRepository.findById(plushyId).orElseThrow();
         String imageUrl = uploadPlushyImage(Long.valueOf(plushyId), plushyInDB.getName(), file);
         plushyInDB.setImageUrl(imageUrl);
     }
 
     @Override
     @Transactional
-    public void updatePlushy(Long plushyId, Plushy plushy) {
+    public void updatePlushy(Long plushyId, MultipartFile multipartFile, String plushy) {
         PlushyInDB plushyInDB = plushyRepository.findById(plushyId).orElseThrow();
-
-        if (plushy.getName() != null) {
-            plushyInDB.setName(plushy.getName());
+        Plushy plushyJson = getJsonFrom(plushy);
+        if (!stringValidator.isNullOrEmpty(plushyJson.getName()) && !plushyJson.getName().equals(plushyInDB.getName())) {
+            plushyInDB.setName(plushyJson.getName());
         }
-        if (plushy.getDescription() != null) {
-            plushyInDB.setDescription(plushy.getDescription());
+        if (!stringValidator.isNullOrEmpty(plushyJson.getDescription()) && !plushyJson.getDescription().equals(plushyInDB.getDescription())) {
+            plushyInDB.setDescription(plushyJson.getDescription());
         }
-        if (plushy.getPrice() != null) {
-            plushyInDB.setPrice(plushy.getPrice());
+        if (plushyJson.getPrice() != null && !plushyJson.getPrice().equals(plushyInDB.getPrice())) {
+            plushyInDB.setPrice(plushyJson.getPrice());
         }
-        if (plushy.getQuantity() != null) {
-            plushyInDB.setQuantity(plushy.getQuantity());
+        if (plushyJson.getQuantity() != null && !plushyJson.getQuantity().equals(plushyInDB.getQuantity())) {
+            plushyInDB.setQuantity(plushyJson.getQuantity());
+        }
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            updatePlushyImage(plushyId, multipartFile);
         }
     }
 }

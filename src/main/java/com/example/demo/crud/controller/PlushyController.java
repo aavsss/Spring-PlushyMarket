@@ -1,6 +1,5 @@
 package com.example.demo.crud.controller;
 
-import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.crud.service.PlushyService;
 import lombok.AllArgsConstructor;
@@ -60,23 +59,28 @@ public class PlushyController {
     }
 
     @PutMapping(
-            path = "/image",
+            path = "/image/{plushyId}",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public void updatePlushyImage(
-            @RequestPart("id") String id,
+            @PathVariable("plushyId") Long id,
             @RequestPart(value = "file", required = false) MultipartFile multipartFile,
             HttpServletResponse response
     ) {
         plushyService.updatePlushyImage(id, multipartFile);
     }
 
-    @PutMapping(path = "/update/{plushyId}")
+    @PutMapping(
+            path = "/update/{plushyId}",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public void updatePlushy(
             @PathVariable("plushyId") Long id,
-            @RequestBody Plushy plushy
+            @RequestPart(value = "file", required = false) MultipartFile multipartFile,
+            @RequestPart("plushy") String plushy
     ) {
-        plushyService.updatePlushy(id, plushy);
+        plushyService.updatePlushy(id, multipartFile, plushy);
     }
 }

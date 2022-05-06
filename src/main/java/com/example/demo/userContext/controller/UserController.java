@@ -1,5 +1,6 @@
 package com.example.demo.userContext.controller;
 
+import com.example.demo.userContext.models.SellingAnalytics;
 import com.example.demo.userContext.models.UserContext;
 import com.example.demo.userContext.service.UserService;
 import lombok.AllArgsConstructor;
@@ -20,5 +21,12 @@ public class UserController {
             @CookieValue(name = "token", defaultValue = "token") String jwtToken
     ) {
         return userService.getUserContext(jwtToken);
+    }
+
+    @GetMapping(path = "/selling-analytics")
+    public SellingAnalytics getSellingAnalytics(
+            @CookieValue(name = "token", defaultValue = "token") String jwtToken
+    ) {
+        return userService.getSellerAnalyticsOf(jwtToken);
     }
 }

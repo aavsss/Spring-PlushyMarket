@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import static com.example.demo.helper.Constants.ENCODING_STD;
+
 
 @RestController
 @RequestMapping(path = "api/v1/login")
@@ -26,7 +28,7 @@ public class LoginController {
     ) throws UnsupportedEncodingException {
         String token = loginService.login(requestBody.getEmail(), requestBody.getPassword());
 
-        Cookie cookie = new Cookie("token", URLEncoder.encode(token, "UTF-8"));
+        Cookie cookie = new Cookie("token", URLEncoder.encode(token, ENCODING_STD));
         cookie.setSecure(false);
         cookie.setHttpOnly(false);
         cookie.setMaxAge(7 * 24 * 60 * 60);
@@ -38,7 +40,7 @@ public class LoginController {
     @PostMapping("/logout")
     public String logout(
             HttpServletResponse response
-    ) throws UnsupportedEncodingException {
+    ) {
 
         Cookie cookie = new Cookie("token", "");
         cookie.setSecure(false);

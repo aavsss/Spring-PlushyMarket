@@ -4,6 +4,7 @@ import com.example.demo.appUser.security.dependency.JWTUtils;
 import com.example.demo.crud.repository.PlushyRepository;
 import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.globalService.FileService.FileService;
+import com.example.demo.globalService.StringValidator.StringValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,8 @@ public class PlushyInDBInDBServiceTest {
     private FileService mockFileService;
     @Mock
     private JWTUtils mockJwtUtils;
+    @Mock
+    private StringValidator stringValidator;
     @Captor
     ArgumentCaptor<Sort> argumentCaptor;
     @Captor
@@ -42,7 +45,7 @@ public class PlushyInDBInDBServiceTest {
 
     @Before
     public void init() {
-        plushyService = new PlushyServiceImpl(mockPlushyRepository, mockFileService, mockJwtUtils);
+        plushyService = new PlushyServiceImpl(mockPlushyRepository, mockFileService, mockJwtUtils, stringValidator);
     }
 
     @Test
