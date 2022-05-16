@@ -1,8 +1,8 @@
-package com.example.demo.userContext.controller;
+package com.example.demo.appUser.userContext.controller;
 
-import com.example.demo.userContext.models.SellingAnalytics;
-import com.example.demo.userContext.models.UserContext;
-import com.example.demo.userContext.service.UserService;
+import com.example.demo.appUser.userContext.models.SellingAnalytics;
+import com.example.demo.appUser.userContext.models.UserContext;
+import com.example.demo.appUser.userContext.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;

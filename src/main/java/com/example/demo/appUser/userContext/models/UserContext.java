@@ -1,4 +1,4 @@
-package com.example.demo.userContext.models;
+package com.example.demo.appUser.userContext.models;
 
 import com.example.demo.appUser.user.models.AppUserRole;
 import lombok.AllArgsConstructor;

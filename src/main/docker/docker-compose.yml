@@ -15,6 +15,9 @@ services:
       - SPRING_DATASOURCE_USERNAME=compose-postgres
       - SPRING_DATASOURCE_PASSWORD=compose-postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - AMAZON_ACCESS_KEY_ID=AKIARAESP3TCG2BMD557
+      - AMAZON_SECRET_KEY_ACCESS=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
+      - JWT_SECRET_KEY=mySecretKeyholaholaholaholaholamySecretKeyholaholaholaholaholamySecretKeyholaholahola
 
   db:
     image: 'postgres:13.1-alpine'

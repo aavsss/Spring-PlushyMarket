@@ -50,7 +50,8 @@ public class PlushyConfig {
                     5,
                     "naruto is the next hokage",
                     fileService.findByName("plushy/naruto.png"),
-                    "aavashsthapit@gmail.com"
+                    "aavashsthapit@gmail.com",
+                    0
             );
 
             PlushyInDB sasuke = new PlushyInDB(
@@ -59,7 +60,8 @@ public class PlushyConfig {
                     6,
                     "sasuke unlocks mangekyou sharingan",
                     fileService.findByName("plushy/sasuke.jpg"),
-                    "peterparker@gmail.com"
+                    "peterparker@gmail.com",
+                    0
             );
 
             plushyRepository.saveAll(

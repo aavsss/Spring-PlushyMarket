@@ -24,6 +24,7 @@ public class PlushyInDB {
     @Column(length = 1024)
     private String imageUrl;
     private String ownerEmail;
+    private Integer quantitySold;
 
     public PlushyInDB() {
     }
@@ -35,7 +36,8 @@ public class PlushyInDB {
             Integer quantity,
             String description,
             String imageUrl,
-            String ownerEmail
+            String ownerEmail,
+            Integer quantitySold
     ) {
         this.id = id;
         this.name = name;
@@ -44,6 +46,7 @@ public class PlushyInDB {
         this.description = description;
         this.imageUrl = imageUrl;
         this.ownerEmail = ownerEmail;
+        this.quantitySold = quantitySold;
     }
 
     public PlushyInDB(
@@ -52,7 +55,8 @@ public class PlushyInDB {
             Integer quantity,
             String description,
             String imageUrl,
-            String ownerEmail
+            String ownerEmail,
+            Integer quantitySold
     ) {
         this.name = name;
         this.price = price;
@@ -60,6 +64,7 @@ public class PlushyInDB {
         this.description = description;
         this.imageUrl = imageUrl;
         this.ownerEmail = ownerEmail;
+        this.quantitySold = quantitySold;
     }
 
     public Long getId() {
@@ -116,6 +121,14 @@ public class PlushyInDB {
 
     public void setOwnerEmail(String ownerEmail) {
         this.ownerEmail = ownerEmail;
+    }
+
+    public Integer getQuantitySold() {
+        return quantitySold;
+    }
+
+    public void setQuantitySold(Integer quantitySold) {
+        this.quantitySold = quantitySold;
     }
 
     @Override

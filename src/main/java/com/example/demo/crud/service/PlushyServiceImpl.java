@@ -81,7 +81,8 @@ public class PlushyServiceImpl implements PlushyService {
                         plushyJson.getQuantity(),
                         plushyJson.getDescription(),
                         imageUrl,
-                        plushyJson.getOwnerEmail()
+                        plushyJson.getOwnerEmail(),
+                        0
                 )
         );
         if (multipartFile != null && !multipartFile.isEmpty()) {
