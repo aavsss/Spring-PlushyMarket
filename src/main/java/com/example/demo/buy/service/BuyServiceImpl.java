@@ -35,6 +35,7 @@ public class BuyServiceImpl implements BuyService {
             for (BuyRequestBody buyRequestBody : plushiesToBuy) {
                 if (plushyInDB.getId().equals(buyRequestBody.getId())) {
                     plushyInDB.setQuantity(plushyInDB.getQuantity() - buyRequestBody.getAmount());
+                    plushyInDB.setQuantitySold(plushyInDB.getQuantitySold() + buyRequestBody.getAmount());
                 }
             }
         }
