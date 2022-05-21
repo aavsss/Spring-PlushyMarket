@@ -1,11 +1,11 @@
 package com.example.demo.appUser.registration.service;
 
-import com.example.demo.appUser.registration.dependencies.EmailValidator;
+import com.example.demo.globalService.emailValidator.EmailValidator;
 import com.example.demo.appUser.registration.models.RegistrationRequest;
 import com.example.demo.appUser.repository.AppUserRepository;
 import com.example.demo.appUser.repository.models.AppUserInDB;
 import com.example.demo.appUser.security.dependency.JWTUtils;
-import com.example.demo.appUser.user.models.AppUserRole;
+import com.example.demo.appUser.userContext.models.AppUserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

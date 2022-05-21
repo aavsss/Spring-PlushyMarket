@@ -25,4 +25,7 @@ public interface AppUserRepository extends JpaRepository<AppUserInDB, String> {
 
     @Query("SELECT p FROM PlushyInDB p WHERE p.ownerEmail = ?1")
     Optional<List<PlushyInDB>> getSellingAnalytics(String email);
+
+    @Query("SELECT COUNT(a) FROM AppUserInDB a")
+    Integer getTotalNumberOfUsers();
 }

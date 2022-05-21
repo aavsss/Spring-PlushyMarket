@@ -1,4 +1,4 @@
-package com.example.demo.appUser.registration.dependencies;
+package com.example.demo.globalService.emailValidator;
 
 import org.springframework.stereotype.Service;
 

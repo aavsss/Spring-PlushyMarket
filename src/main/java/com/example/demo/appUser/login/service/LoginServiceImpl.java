@@ -1,6 +1,6 @@
 package com.example.demo.appUser.login.service;
 
-import com.example.demo.appUser.registration.dependencies.EmailValidator;
+import com.example.demo.globalService.emailValidator.EmailValidator;
 import com.example.demo.appUser.repository.AppUserRepository;
 import com.example.demo.appUser.repository.models.AppUserInDB;
 import com.example.demo.appUser.security.dependency.JWTUtils;

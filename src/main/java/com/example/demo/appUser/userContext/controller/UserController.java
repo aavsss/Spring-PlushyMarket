@@ -29,4 +29,11 @@ public class UserController {
     ) {
         return userService.getSellerAnalyticsOf(jwtToken);
     }
+
+    @GetMapping(path = "/totalNum")
+    public Integer getTotalNumberOfUsers(
+            @CookieValue(name = "token", defaultValue = "token") String jwtToken
+    ) {
+        return userService.getTotalNumberOfUsers(jwtToken);
+    }
 }

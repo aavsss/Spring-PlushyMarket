@@ -1,6 +1,6 @@
 package com.example.demo.appUser.repository.models;
 
-import com.example.demo.appUser.user.models.AppUserRole;
+import com.example.demo.appUser.userContext.models.AppUserRole;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

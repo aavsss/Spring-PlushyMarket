@@ -1,4 +1,4 @@
-package com.example.demo.appUser.user.models;
+package com.example.demo.appUser.userContext.models;
 
 public enum AppUserRole {
     USER,

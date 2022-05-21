@@ -1,8 +1,8 @@
 package com.example.demo.buy.service;
 
 import com.example.demo.buy.model.BuyRequestBody;
-import com.example.demo.buy.repository.BuyRepository;
 import com.example.demo.cart.repository.CartRepository;
+import com.example.demo.crud.repository.PlushyRepository;
 import com.example.demo.crud.repository.models.PlushyInDB;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,14 +22,14 @@ import static org.mockito.Mockito.*;
 public class BuyServiceImplTest {
 
     @Mock
-    private BuyRepository mockBuyRepository;
+    private PlushyRepository mockPlushyRepository;
     @Mock
     private CartRepository mockCartRepository;
     private BuyServiceImpl buyService;
 
     @Before
     public void init() {
-        buyService = new BuyServiceImpl(mockBuyRepository, mockCartRepository);
+        buyService = new BuyServiceImpl(mockPlushyRepository, mockCartRepository);
     }
 
     @Test
@@ -37,13 +37,13 @@ public class BuyServiceImplTest {
         List<BuyRequestBody> buyRequestBodies = List.of(new BuyRequestBody(1L, 3));
         List<PlushyInDB> plushiesFromRepo = new ArrayList<>();
         List<PlushyInDB> plushies = buyService.buyPlushyById(buyRequestBodies);
-        when(mockBuyRepository.findAllById(any())).thenReturn(plushiesFromRepo);
+        when(mockPlushyRepository.findAllById(any())).thenReturn(plushiesFromRepo);
 
         assert(plushies.size() == 0);
 
         ArgumentCaptor<List<Long>> listArgumentCaptor = ArgumentCaptor.forClass(List.class);
 
-        verify(mockBuyRepository, times(1)).findAllById(listArgumentCaptor.capture());
+        verify(mockPlushyRepository, times(1)).findAllById(listArgumentCaptor.capture());
         verify(mockCartRepository, times(1)).deleteAll();
 
         assert(listArgumentCaptor.getValue().size() == 1);

@@ -5,8 +5,8 @@ import com.example.demo.appUser.security.dependency.JWTUtils;
 import com.example.demo.crud.model.Plushy;
 import com.example.demo.crud.repository.PlushyRepository;
 import com.example.demo.crud.repository.models.PlushyInDB;
-import com.example.demo.globalService.FileService.FileService;
-import com.example.demo.globalService.StringValidator.StringValidator;
+import com.example.demo.globalService.fileService.FileService;
+import com.example.demo.globalService.stringValidator.StringValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
 
-import static com.example.demo.globalService.FileService.FileServiceImpl.S3_BUCKET_NAME;
+import static com.example.demo.globalService.fileService.FileServiceImpl.S3_BUCKET_NAME;
 import static org.apache.http.entity.ContentType.*;
 
 @Service
@@ -39,7 +39,7 @@ public class PlushyServiceImpl implements PlushyService {
     @Override
     public PlushyInDB getPlushyById(Long id) {
         Optional<PlushyInDB> plushyOptional = plushyRepository.findById(id);
-        return plushyOptional.orElse(null);
+        return plushyOptional.orElseThrow();
     }
 
     @Override
@@ -132,7 +132,7 @@ public class PlushyServiceImpl implements PlushyService {
     @Transactional
     public void updatePlushyImage(Long plushyId, MultipartFile file) {
         PlushyInDB plushyInDB = plushyRepository.findById(plushyId).orElseThrow();
-        String imageUrl = uploadPlushyImage(Long.valueOf(plushyId), plushyInDB.getName(), file);
+        String imageUrl = uploadPlushyImage(plushyId, plushyInDB.getName(), file);
         plushyInDB.setImageUrl(imageUrl);
     }
 

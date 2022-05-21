@@ -1,7 +1,7 @@
 package com.example.demo.appUser.security.config;
 
-import com.example.demo.appUser.user.service.AppUserServiceImpl;
 import com.example.demo.appUser.security.filter.JWTAuthorizationFilter;
+import com.example.demo.appUser.userContext.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AppUserServiceImpl appUserService;
+    private final UserServiceImpl appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
 

@@ -1,4 +1,4 @@
-package com.example.demo.globalService.StringValidator;
+package com.example.demo.globalService.stringValidator;
 
 import org.springframework.stereotype.Service;
 

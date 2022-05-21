@@ -18,9 +18,7 @@ public class PlushyController {
     private final PlushyService plushyService;
 
     @GetMapping
-    public List<PlushyInDB> getPlushies(
-            @CookieValue(name = "token", defaultValue = "token") String jwtToken
-    ) {
+    public List<PlushyInDB> getPlushies() {
         return plushyService.getPlushies();
     }
 

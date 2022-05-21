@@ -2,7 +2,7 @@ package com.example.demo.crud.controller;
 
 import com.example.demo.crud.repository.models.PlushyInDB;
 import com.example.demo.crud.service.PlushyService;
-import com.example.demo.globalService.FileService.FileServiceImpl;
+import com.example.demo.globalService.fileService.FileServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

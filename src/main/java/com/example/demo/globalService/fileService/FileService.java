@@ -1,4 +1,4 @@
-package com.example.demo.globalService.FileService;
+package com.example.demo.globalService.fileService;
 
 import java.io.InputStream;
 import java.util.Map;

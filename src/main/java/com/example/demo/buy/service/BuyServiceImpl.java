@@ -1,8 +1,8 @@
 package com.example.demo.buy.service;
 
 import com.example.demo.buy.model.BuyRequestBody;
-import com.example.demo.buy.repository.BuyRepository;
 import com.example.demo.cart.repository.CartRepository;
+import com.example.demo.crud.repository.PlushyRepository;
 import com.example.demo.crud.repository.models.PlushyInDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,12 @@ import java.util.List;
 @Service
 public class BuyServiceImpl implements BuyService {
 
-    private final BuyRepository buyRepository;
+    private final PlushyRepository plushyRepository;
     private final CartRepository cartRepository;
 
     @Autowired
-    public BuyServiceImpl(BuyRepository buyRepository, CartRepository cartRepository) {
-        this.buyRepository = buyRepository;
+    public BuyServiceImpl(PlushyRepository plushyRepository, CartRepository cartRepository) {
+        this.plushyRepository = plushyRepository;
         this.cartRepository = cartRepository;
     }
 
@@ -30,7 +30,7 @@ public class BuyServiceImpl implements BuyService {
         for ( BuyRequestBody requestBody: plushiesToBuy) {
             ids.add(requestBody.getId());
         }
-        List<PlushyInDB> plushies = buyRepository.findAllById(ids);
+        List<PlushyInDB> plushies = plushyRepository.findAllById(ids);
         for(PlushyInDB plushyInDB : plushies) {
             for (BuyRequestBody buyRequestBody : plushiesToBuy) {
                 if (plushyInDB.getId().equals(buyRequestBody.getId())) {

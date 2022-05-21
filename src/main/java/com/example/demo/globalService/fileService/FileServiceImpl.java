@@ -1,4 +1,4 @@
-package com.example.demo.globalService.FileService;
+package com.example.demo.globalService.fileService;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.HttpMethod;

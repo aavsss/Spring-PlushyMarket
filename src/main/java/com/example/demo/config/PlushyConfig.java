@@ -2,12 +2,12 @@ package com.example.demo.config;
 
 import com.example.demo.appUser.repository.AppUserRepository;
 import com.example.demo.appUser.repository.models.AppUserInDB;
-import com.example.demo.appUser.user.models.AppUserRole;
+import com.example.demo.appUser.userContext.models.AppUserRole;
 import com.example.demo.cart.repository.CartRepository;
 import com.example.demo.cart.repository.models.CartInDB;
 import com.example.demo.crud.repository.PlushyRepository;
 import com.example.demo.crud.repository.models.PlushyInDB;
-import com.example.demo.globalService.FileService.FileServiceImpl;
+import com.example.demo.globalService.fileService.FileServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

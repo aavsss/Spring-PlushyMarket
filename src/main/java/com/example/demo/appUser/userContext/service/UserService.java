@@ -5,7 +5,7 @@ import com.example.demo.appUser.userContext.models.UserContext;
 
 public interface UserService {
     UserContext getUserContext(String jwtToken);
-
     SellingAnalytics getSellerAnalyticsOf(String jwtToken);
+    Integer getTotalNumberOfUsers(String jwtToken);
 
 }

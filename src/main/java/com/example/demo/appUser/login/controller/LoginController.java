@@ -34,7 +34,7 @@ public class LoginController {
         cookie.setMaxAge(7 * 24 * 60 * 60);
         response.addCookie(cookie);
 
-        return token;
+        return "Logging in";
     }
 
     @PostMapping("/logout")
@@ -49,7 +49,7 @@ public class LoginController {
         cookie.setPath("/api/v1");
         response.addCookie(cookie);
 
-        return "Loggin out";
+        return "Logging out";
     }
 
 }

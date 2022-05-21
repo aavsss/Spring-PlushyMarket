@@ -1,6 +1,6 @@
 package com.example.demo.appUser.security.dependency;
 
-import com.example.demo.appUser.user.models.AppUserRole;
+import com.example.demo.appUser.userContext.models.AppUserRole;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
