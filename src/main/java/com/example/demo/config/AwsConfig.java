@@ -20,8 +20,8 @@ public class AwsConfig {
     public AmazonS3 s3() {
         AWSCredentials awsCredentials =
                 new BasicAWSCredentials(
-                        env.getProperty("amazon_access_key_id"),
-                        env.getProperty("amazon_secret_key_access")
+                        env.getProperty("AMAZON_ACCESS_KEY_ID"),
+                        env.getProperty("AMAZON_SECRET_KEY_ACCESS")
                 );
 
         return AmazonS3ClientBuilder

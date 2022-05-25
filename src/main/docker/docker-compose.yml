@@ -10,14 +10,9 @@ services:
       - "8080:8080"
     depends_on:
       - db
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-      - SPRING_DATASOURCE_USERNAME=compose-postgres
-      - SPRING_DATASOURCE_PASSWORD=compose-postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
-      - AMAZON_ACCESS_KEY_ID=AKIARAESP3TCG2BMD557
-      - AMAZON_SECRET_KEY_ACCESS=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
-      - JWT_SECRET_KEY=mySecretKeyholaholaholaholaholamySecretKeyholaholaholaholaholamySecretKeyholaholahola
+    env_file:
+      - app.env
+
 
   db:
     image: 'postgres:13.1-alpine'

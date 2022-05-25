@@ -157,4 +157,5 @@ public class PlushyServiceImpl implements PlushyService {
             updatePlushyImage(plushyId, multipartFile);
         }
     }
+
 }
