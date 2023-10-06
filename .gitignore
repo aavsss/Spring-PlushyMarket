@@ -37,3 +37,6 @@ build/
 
 ### jar file
 src/main/docker/spring-boot-docker.jar
+
+### env files
+*.env

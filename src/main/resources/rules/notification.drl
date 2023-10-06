@@ -1,0 +1,11 @@
+import com.example.demo.crud.repository.models.PlushyInDB
+global com.example.demo.notifications.service.NotificationsService notificationsService
+
+dialect "mvel"
+
+rule "Low on supply"
+    when
+        $plushy: PlushyInDB(quantity < 3)
+    then
+        notificationsService.sendNotification($plushy)
+end

@@ -29,7 +29,7 @@ public class BuyServiceImplTest {
 
     @Before
     public void init() {
-        buyService = new BuyServiceImpl(mockPlushyRepository, mockCartRepository);
+//        buyService = new BuyServiceImpl(mockPlushyRepository, mockCartRepository);
     }
 
     @Test
