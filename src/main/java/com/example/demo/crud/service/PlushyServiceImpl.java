@@ -50,6 +50,12 @@ public class PlushyServiceImpl implements PlushyService {
     }
 
     @Override
+    public List<PlushyInDB> getSimilarPlushies(Long id) {
+        Optional<List<PlushyInDB>> optionalPlushyInDBList = plushyRepository.findSimilarPlushies(id);
+        return optionalPlushyInDBList.orElse(List.of());
+    }
+
+    @Override
     public void addPlushy(PlushyInDB plushyInDB) {
         Optional<PlushyInDB> plushyOptional = plushyRepository.findById(plushyInDB.getId());
         if (plushyOptional.isPresent()) {

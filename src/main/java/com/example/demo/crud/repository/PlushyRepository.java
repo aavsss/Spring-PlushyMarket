@@ -14,4 +14,7 @@ public interface PlushyRepository
 
     @Query("SELECT p FROM PlushyInDB p WHERE p.ownerEmail=?1")
     Optional<List<PlushyInDB>> findAllByOwner(String ownerEmail);
+
+    @Query("SELECT p FROM PlushyInDB p WHERE p.id IS NOT ?1")
+    Optional<List<PlushyInDB>> findSimilarPlushies(Long id);
 }

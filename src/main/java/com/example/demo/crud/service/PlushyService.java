@@ -12,6 +12,8 @@ public interface PlushyService {
 
     List<PlushyInDB> getPlushiesByOwner(String jwtToken);
 
+    List<PlushyInDB> getSimilarPlushies(Long id);
+
     void addPlushy(PlushyInDB plushyInDB);
 
     void deletePlushy(Long plushyId);

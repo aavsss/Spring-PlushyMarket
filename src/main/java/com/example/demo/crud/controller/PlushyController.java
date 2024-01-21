@@ -81,4 +81,13 @@ public class PlushyController {
     ) {
         plushyService.updatePlushy(id, multipartFile, plushy);
     }
+
+    @GetMapping(
+            path = "/{plushyId}/similar_plushies"
+    )
+    public List<PlushyInDB> getSimilarPlushies(
+            @PathVariable("plushyId") Long id
+    ) {
+        return plushyService.getSimilarPlushies(id);
+    }
 }
